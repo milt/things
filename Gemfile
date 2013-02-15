@@ -22,6 +22,7 @@ gem 'rspec-rails', '2.12.2'
 gem 'squeel', '1.0.16'
 gem 'rolify'
 gem 'factory_girl_rails', :group => :test
+gem 'haml-rails'
 
 # Gems used only for assets and not required
 # in production environments by default.
