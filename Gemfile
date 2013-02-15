@@ -18,11 +18,16 @@ gem 'pg', '0.14.1'
 gem 'pry-rails', '0.2.2'
 gem 'rails_admin', '0.4.5'
 gem 'ransack', '0.7.2'
-gem 'rspec-rails', '2.12.2'
 gem 'squeel', '1.0.16'
 gem 'rolify'
-gem 'factory_girl_rails', :group => :test
 gem 'haml-rails'
+
+group :test do
+  gem 'rspec-rails', '2.12.2'
+  gem 'factory_girl_rails'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
