@@ -7,16 +7,10 @@
           %li= msg
 
   .field
-    = f.label :index
-    = f.text_field :index
+    = f.label :name
+    = f.text_field :name
   .field
-    = f.label :edit
-    = f.text_field :edit
-  .field
-    = f.label :new
-    = f.text_field :new
-  .field
-    = f.label :show
-    = f.text_field :show
+    = f.label :description
+    = f.text_field :description
   .actions
     = f.submit 'Save'

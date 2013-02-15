@@ -1,17 +1,11 @@
 %p#notice= notice
 
 %p
-  %b Index:
-  = @thing.index
+  %b Name:
+  = @thing.name
 %p
-  %b Edit:
-  = @thing.edit
-%p
-  %b New:
-  = @thing.new
-%p
-  %b Show:
-  = @thing.show
+  %b Description:
+  = @thing.description
 
 = link_to 'Edit', edit_thing_path(@thing)
 \|
