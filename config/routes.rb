@@ -1,4 +1,7 @@
 Things::Application.routes.draw do
+  resources :things
+
+
   devise_for :users
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

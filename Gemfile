@@ -8,6 +8,7 @@ gem 'rails', '3.2.12'
 
 gem 'sqlite3'
 
+gem 'cancan'
 gem 'bootstrap-sass', '2.3.0.0'
 gem 'bootstrap-sass-rails', '2.3.0.0'
 gem 'builder', '3.0.4'
