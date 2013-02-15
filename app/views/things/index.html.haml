@@ -1,0 +1,25 @@
+%h1 Listing things
+
+%table
+  %tr
+    %th Index
+    %th Edit
+    %th New
+    %th Show
+    %th
+    %th
+    %th
+
+  - @things.each do |thing|
+    %tr
+      %td= thing.index
+      %td= thing.edit
+      %td= thing.new
+      %td= thing.show
+      %td= link_to 'Show', thing
+      %td= link_to 'Edit', edit_thing_path(thing)
+      %td= link_to 'Destroy', thing, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Thing', new_thing_path

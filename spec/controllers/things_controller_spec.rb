@@ -24,7 +24,7 @@ describe ThingsController do
   # Thing. As you add validations to Thing, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "name" => "MyString" }
+    { "index" => "MyString" }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -89,14 +89,14 @@ describe ThingsController do
       it "assigns a newly created but unsaved thing as @thing" do
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        post :create, {:thing => { "name" => "invalid value" }}, valid_session
+        post :create, {:thing => { "index" => "invalid value" }}, valid_session
         assigns(:thing).should be_a_new(Thing)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        post :create, {:thing => { "name" => "invalid value" }}, valid_session
+        post :create, {:thing => { "index" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
     end
@@ -110,8 +110,8 @@ describe ThingsController do
         # specifies that the Thing created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Thing.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
-        put :update, {:id => thing.to_param, :thing => { "name" => "MyString" }}, valid_session
+        Thing.any_instance.should_receive(:update_attributes).with({ "index" => "MyString" })
+        put :update, {:id => thing.to_param, :thing => { "index" => "MyString" }}, valid_session
       end
 
       it "assigns the requested thing as @thing" do
@@ -132,7 +132,7 @@ describe ThingsController do
         thing = Thing.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        put :update, {:id => thing.to_param, :thing => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => thing.to_param, :thing => { "index" => "invalid value" }}, valid_session
         assigns(:thing).should eq(thing)
       end
 
@@ -140,7 +140,7 @@ describe ThingsController do
         thing = Thing.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        put :update, {:id => thing.to_param, :thing => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => thing.to_param, :thing => { "index" => "invalid value" }}, valid_session
         response.should render_template("edit")
       end
     end
