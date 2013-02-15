@@ -184,7 +184,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-sass (= 2.3.0.0)
   bootstrap-sass-rails (= 2.3.0.0)
   builder (= 3.0.4)
   bundler (= 1.2.4)
@@ -200,7 +199,6 @@ DEPENDENCIES
   rails_admin (= 0.4.5)
   ransack (= 0.7.2)
   rspec-rails (= 2.12.2)
-  sass-rails (~> 3.2.6)
   sqlite3
   squeel (= 1.0.16)
   uglifier (>= 1.0.3)

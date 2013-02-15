@@ -9,8 +9,8 @@ gem 'rails', '3.2.12'
 gem 'sqlite3'
 
 gem 'cancan'
-gem 'bootstrap-sass', '2.3.0.0'
-gem 'bootstrap-sass-rails', '2.3.0.0'
+#gem 'bootstrap-sass', '2.3.0.0'
+
 gem 'builder', '3.0.4'
 gem 'coderay', '1.0.8'
 gem 'kaminari', '0.14.1'
@@ -24,8 +24,9 @@ gem 'squeel', '1.0.16'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.6'
+  #gem 'sass-rails',   '~> 3.2.6'
   gem 'coffee-rails', '~> 3.2.2'
+  gem 'bootstrap-sass-rails', '2.3.0.0'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
