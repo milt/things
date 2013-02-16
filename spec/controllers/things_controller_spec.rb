@@ -24,7 +24,7 @@ describe ThingsController do
   # Thing. As you add validations to Thing, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "index" => "MyString" }
+    { "name" => "MyString", "descripion" => "MyString" }
   end
 
   # This should return the minimal set of values that should be in the session
