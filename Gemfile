@@ -23,10 +23,13 @@ gem 'rolify'
 gem 'haml-rails'
 
 group :test do
-  gem 'rspec-rails', '2.12.2'
   gem 'factory_girl_rails'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
+end
+
+group :test, :development do
+  gem 'rspec-rails', '2.12.2'
 end
 
 # Gems used only for assets and not required
