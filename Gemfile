@@ -21,6 +21,7 @@ gem 'ransack', '0.7.2'
 gem 'squeel', '1.0.16'
 gem 'rolify'
 gem 'haml-rails'
+gem 'faker'
 
 group :test do
   gem 'cucumber-rails', :require => false
