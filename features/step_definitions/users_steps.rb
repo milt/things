@@ -17,7 +17,7 @@ end
 ### GIVEN ###
 
 Given /^I am logged in$/ do
-  create_user
+  create_admin
   sign_in
 end
 

@@ -27,6 +27,7 @@ gem 'pickle'
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
+  gem 'capybara'
 end
 
 group :test, :development do
