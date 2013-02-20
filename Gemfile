@@ -22,6 +22,7 @@ gem 'squeel', '1.0.16'
 gem 'rolify'
 gem 'haml-rails'
 gem 'faker'
+gem 'pickle'
 
 group :test do
   gem 'cucumber-rails', :require => false

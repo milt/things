@@ -118,6 +118,9 @@ GEM
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
     pg (0.14.1)
+    pickle (0.4.11)
+      cucumber (>= 0.8)
+      rake
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
@@ -248,6 +251,7 @@ DEPENDENCIES
   jquery-rails
   kaminari (= 0.14.1)
   pg (= 0.14.1)
+  pickle
   pry-rails (= 0.2.2)
   rails (= 3.2.12)
   rails_admin (= 0.4.5)
