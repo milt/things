@@ -30,6 +30,13 @@ def add_new
   click_button "Save"
 end
 
+def edit
+  visit edit_thing_path(@thing)
+  fill_in 'Name', :with => @thing[:name]
+  fill_in 'Description', :with => @thing[:description]
+  click_button "Save"
+end
+
 Given /^I am at the things index page$/ do
   visit '/things'
   page.should have_content "Things"
@@ -49,7 +56,7 @@ Then /^I should be redirected to the thing$/ do
   page.should have_content "Thing #" # need to get the code to find the action/path
 end
 
-Then /^I should see a confirmation message$/ do
+Then /^I should see a confirmation message that it was created$/ do
   page.should have_content "Thing was successfully created."
 end
 
@@ -82,26 +89,36 @@ Then /^I should be able to go back$/ do
   page.should have_link "Back"
 end
 
-When /^I edit a thing with invalid parameters$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I edit a thing with valid parameters$/ do
+  build_valid_thing
+  @thing.save
+  @thing.description += "morestuff"
+  edit
 end
 
-When /^I edit a thing with valid parameters$/ do
-  pending # express the regexp above with the code you wish you had
+When /^I edit a thing with invalid parameters$/ do
+  build_valid_thing
+  @thing.save
+  @thing.name = nil
+  edit
+end
+
+Then /^I should see a confirmation message that it was edited$/ do
+  page.should have_content "Thing was successfully updated."
 end
 
 Then /^I should be returned to the edit page$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content "Editing thing"
 end
 
 Then /^I should see a validation error$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content "can't be blank"
 end
 
 When /^I delete a thing$/ do
-  pending # express the regexp above with the code you wish you had
+  pending # need to figure out how to get selenium to work with the popup conf
 end
 
 Then /^I should be redirected to the index$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content "Things"
 end
