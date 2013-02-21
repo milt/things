@@ -1,5 +1,25 @@
+def create_anything
+  @anything ||= { :name => "raygun",
+    :description => "Shoots stuff" }
+end
+
+def delete_thing
+  @thing ||= Thing.where(:name => @anything[:name]).first
+  @thing.destroy unless @thing.nil?
+end
+
+
+def create_thing
+  create_anything
+  delete_thing
+  @thing = FactoryGirl.create(:thing, @anything)
+end
+
+
 def build_valid_thing
-	@thing = FactoryGirl.build(:thing)
+  create_anything
+  delete_thing
+	create_thing
 end
 
 def build_invalid_thing
@@ -8,9 +28,8 @@ end
 
 def add_new
   visit '/things/new'
-  puts page.body
-  fill_in 'thing_name', :with => @thing[:name]
-  fill_in 'thing_description', :with => @thing[:description]
+  fill_in 'Name', :with => @thing[:name]
+  fill_in 'Description', :with => @thing[:description]
   click_button "Save"
 end
 
