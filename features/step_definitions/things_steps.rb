@@ -43,16 +43,16 @@ When /^I add a new thing with invalid parameters$/ do
   add_new
 end
 
-Then /^I should be returned to the index$/ do
-  page.should_have_content "Things"
+Then /^I should be redirected to the thing$/ do
+  page.should have_content "Thing was successfully created." # need to get the code to find the action/path
 end
 
 Then /^I should see a confirmation message$/ do
-  page.should_have_content "Thing was successfully created."
+  page.should have_content "Thing was successfully created."
 end
 
 Then /^I should be returned to the new page$/ do
-  page.should_have_content "New Thing"
+  page.should have_content "New Thing"
 end
 
 Then /^I should see a description validation error$/ do

@@ -7,7 +7,7 @@ Feature: admin adds thing
   Scenario: add a valid thing
     Given I am logged in as admin
     When I add a new thing with valid parameters
-    Then I should be returned to the index
+    Then I should be redirected to the thing
     And I should see a confirmation message
 
   Scenario: add an invalid thing
