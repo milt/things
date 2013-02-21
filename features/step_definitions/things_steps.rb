@@ -12,9 +12,15 @@ end
 def create_thing
   create_anything
   delete_thing
-  @thing = FactoryGirl.create(:thing, @anything)
+  @thing = FactoryGirl.build(:thing, @anything)
 end
 
+def create_invalid_thing
+  create_anything
+  delete_thing
+  @thing = FactoryGirl.build(:thing, @anything)
+  @thing.name = nil
+end
 
 def build_valid_thing
   create_anything
@@ -23,7 +29,9 @@ def build_valid_thing
 end
 
 def build_invalid_thing
-	@thing = FactoryGirl.build(:thing, name: nil)
+  create_anything
+  delete_thing
+  create_invalid_thing
 end
 
 def add_new
@@ -44,7 +52,7 @@ When /^I add a new thing with invalid parameters$/ do
 end
 
 Then /^I should be redirected to the thing$/ do
-  page.should have_content "Thing was successfully created." # need to get the code to find the action/path
+  page.should have_content "Thing #" # need to get the code to find the action/path
 end
 
 Then /^I should see a confirmation message$/ do
@@ -56,5 +64,5 @@ Then /^I should be returned to the new page$/ do
 end
 
 Then /^I should see a description validation error$/ do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content "can't be blank"
 end
