@@ -75,12 +75,11 @@ Then /^I should see all of its attributes$/ do
 end
 
 Then /^I should be able to edit it$/ do
-  puts page.body
-  page.should have_link edit_thing_path(@thing)
+  page.should have_link "Edit"
 end
 
 Then /^I should be able to go back$/ do
-  page.should have_link things_path
+  page.should have_link "Back"
 end
 
 When /^I edit a thing with invalid parameters$/ do
