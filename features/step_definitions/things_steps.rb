@@ -9,36 +9,30 @@ def delete_thing
 end
 
 
-def create_thing
+def build_valid_thing
   create_anything
   delete_thing
   @thing = FactoryGirl.build(:thing, @anything)
 end
 
-def create_invalid_thing
+def build_invalid_thing
   create_anything
   delete_thing
   @thing = FactoryGirl.build(:thing, @anything)
   @thing.name = nil
 end
 
-def build_valid_thing
-  create_anything
-  delete_thing
-	create_thing
-end
-
-def build_invalid_thing
-  create_anything
-  delete_thing
-  create_invalid_thing
-end
 
 def add_new
-  visit '/things/new'
+  click_link 'New Thing'
   fill_in 'Name', :with => @thing[:name]
   fill_in 'Description', :with => @thing[:description]
   click_button "Save"
+end
+
+Given /^I am at the things index page$/ do
+  visit '/things'
+  page.should have_content "Things"
 end
 
 When /^I add a new thing with valid parameters$/ do
@@ -65,4 +59,50 @@ end
 
 Then /^I should see a description validation error$/ do
   page.should have_content "can't be blank"
+end
+
+
+When /^I view a thing$/ do
+  build_valid_thing
+  @thing.save
+  visit thing_path(@thing)
+end
+
+Then /^I should see all of its attributes$/ do
+  page.should have_content @thing.id.to_s
+  page.should have_content @thing.name
+  page.should have_content @thing.description
+end
+
+Then /^I should be able to edit it$/ do
+  puts page.body
+  page.should have_link edit_thing_path(@thing)
+end
+
+Then /^I should be able to go back$/ do
+  page.should have_link things_path
+end
+
+When /^I edit a thing with invalid parameters$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I edit a thing with valid parameters$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I should be returned to the edit page$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I should see a validation error$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+When /^I delete a thing$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then /^I should be redirected to the index$/ do
+  pending # express the regexp above with the code you wish you had
 end
