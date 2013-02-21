@@ -7,6 +7,11 @@ Feature: admin manages users
   Background:
     Given I am logged in as admin
 
+  Scenario: admin sees list of users
+    When I visit the users index
+    Then I should see a list of users
+    And I should see their roles
+
   Scenario: admin adds user
 
   Scenario: admin views user
@@ -14,5 +19,3 @@ Feature: admin manages users
   Scenario: admin edits user
 
   Scenario: admin deletes user
-
-  Scenario: admin views list of users

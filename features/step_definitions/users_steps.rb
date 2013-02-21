@@ -12,6 +12,19 @@ Given /^I am logged in as admin$/ do
   sign_in
 end
 
+When /^I visit the users index$/ do
+  create_user
+  visit '/users'
+end
+
+Then /^I should see a list of users$/ do
+  page.should have_content @user.email
+end
+
+Then /^I should see their roles$/ do
+  pending # express the regexp above with the code you wish you had
+end
+
 ### From devise rspec tutorial
 ### UTILITY METHODS ###
 

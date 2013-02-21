@@ -9,6 +9,8 @@ Things::Application.routes.draw do
   root :to => "home#index"
   get "home/index"
 
+  match 'users' => 'users#index'
+  match 'users/index' => 'users#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

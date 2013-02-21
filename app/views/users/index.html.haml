@@ -1,0 +1,11 @@
+%h1 Users
+
+%table#user
+  %tr
+    %th Id
+    %th Email
+
+  - @users.each do |user|
+    %tr.user
+      %td.user_id= user.id.to_s
+      %td.user_email= user.email
