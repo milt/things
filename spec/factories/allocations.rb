@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :allocation do
-    checkout ""
+    checkout nil
     thing nil
   end
 end
