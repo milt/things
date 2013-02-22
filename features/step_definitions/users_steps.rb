@@ -3,12 +3,33 @@
 def create_admin
   create_visitor
   delete_user
-  @user = FactoryGirl.create(:user, @visitor)
-  @user.add_role :admin
+  @user = FactoryGirl.create(:admin, @visitor)
+end
+
+def create_operator
+  create_visitor
+  delete_user
+  @user = FactoryGirl.create(:operator, @visitor)
+end
+
+def create_patron
+  create_visitor
+  delete_user
+  @user = FactoryGirl.create(:patron, @visitor)
 end
 
 Given /^I am logged in as admin$/ do
   create_admin
+  sign_in
+end
+
+Given /^I am logged in as operator$/ do
+  create_operator
+  sign_in
+end
+
+Given /^I am logged in as patron$/ do
+  create_patron
   sign_in
 end
 
