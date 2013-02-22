@@ -11,7 +11,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130215201729) do
+ActiveRecord::Schema.define(:version => 20130222215720) do
+
+  create_table "allocations", :force => true do |t|
+    t.integer  "checkout_id"
+    t.integer  "thing_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "allocations", ["thing_id"], :name => "index_allocations_on_thing_id"
+
+  create_table "checkouts", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "pickup_at"
+    t.datetime "return_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"
