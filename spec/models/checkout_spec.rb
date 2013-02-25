@@ -6,15 +6,15 @@ describe Checkout do
   end
 
   it "is invalid without a user" do
-  	FactoryGirl.build(:checkout, user: nil).should_not be_valid
+    FactoryGirl.build(:checkout, user: nil).should_not be_valid
   end
 
   it "is invalid without a pickup time" do
-  	FactoryGirl.build(:checkout, pickup_at: nil).should_not be_valid
+    FactoryGirl.build(:checkout, pickup_at: nil).should_not be_valid
   end
 
   it "is invalid without a return time" do
-  	FactoryGirl.build(:checkout, return_at: nil).should_not be_valid
+    FactoryGirl.build(:checkout, return_at: nil).should_not be_valid
   end
 
   it "should get rid of its allocations if it is deleted" do

@@ -7,8 +7,9 @@ FactoryGirl.define do
     return_at DateTime.now + 1.day
     allocations {
       Array(1..10).sample.times.map do
-        FactoryGirl.create(:allocation)
+        FactoryGirl.build(:allocation)
       end
     }
+    after(:create) {|checkout| checkout.allocations.each {|a| a.save}}
   end
 end
