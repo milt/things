@@ -17,19 +17,4 @@ describe Allocation do
     FactoryGirl.build(:allocation, return_at: nil).should_not be_valid
   end
 
-  context "when checkout is a reservation" do
-  end
-
-  context "when checkout has been returned" do
-  end
-
-  context "when checkout is overdue" do
-  end
-
-  context "when checkout is returned late" do
-  end
-
-  context "when checkout is picked up late" do
-  end
-
 end

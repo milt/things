@@ -23,6 +23,82 @@ describe Checkout do
     Allocation.where("checkout_id",checkout.id).should be_empty
   end
 
+  context "when is a reservation" do
+    let(:checkout){ FactoryGirl.create(:reservation) }
 
-  #pending "add some examples to (or delete) #{__FILE__}"
+    it "should return reservation as status" do
+      checkout.status.should eq(:reservation)
+    end
+
+    it "should show up in the reservation scope" do
+      Checkout.reservation.should include(checkout)
+    end
+  end
+
+  context "when is late for pickup" do
+    let(:checkout){ FactoryGirl.create(:late_for_pickup) }
+
+    it "should return late_for_pickup as status" do
+      checkout.status.should eq(:late_for_pickup)
+    end
+
+    it "should show up in the late_for_pickup scope" do
+      Checkout.late_for_pickup.should include(checkout)
+    end
+  end
+
+  context "when is active" do
+    let(:checkout){ FactoryGirl.create(:active) }
+
+    it "should return active as status" do
+      checkout.status.should eq(:active)
+    end
+
+    it "should show up in the active scope" do
+      Checkout.active.should include(checkout)
+    end
+  end
+
+  context "when is overdue" do
+    let(:checkout){ FactoryGirl.create(:overdue) }
+
+    it "should return overdue as status" do
+      checkout.status.should eq(:overdue)
+    end
+
+    it "should show up in the overdue scope" do
+      Checkout.overdue.should include(checkout)
+    end
+  end
+
+  context "when has been returned" do
+    let(:checkout){ FactoryGirl.create(:returned) }
+
+    it "should return returned as status" do
+      checkout.status.should eq(:returned)
+    end
+
+    it "should show up in the returned scope" do
+      Checkout.returned.should include(checkout)
+    end
+  end
+
+  context "when has been returned late" do
+    let(:checkout){ FactoryGirl.create(:late_return) }
+
+    it "should return returned as status" do
+      checkout.status.should eq(:late_return)
+    end
+
+    it "should show up in the returned_late scope" do
+      Checkout.returned_late.should include(checkout)
+    end
+  end
+
+
+  context "when is returned late" do
+  end
+
+  context "when is picked up late" do
+  end
 end
