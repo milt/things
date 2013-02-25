@@ -4,19 +4,13 @@ class Checkout < ActiveRecord::Base
   has_many :allocations, :dependent => :delete_all
   has_many :things, :through => :allocations
   validates :user, :pickup_at, :return_at, :presence => true
-  scope :reservation, lambda { where("pickup_at > ?", DateTime.now) }
+  scope :reservation, where(picked_up: nil, returned: nil)
+  scope :active, where("picked_up IS NOT NULL AND returned IS NULL")
+  scope :returned, where("picked_up IS NOT NULL AND returned IS NOT NULL")
 
   def status
-    if picked_up.nil?
-      :reservation if pickup_at >= DateTime.now else :late_for_pickup
-    end
-
-    if picked_up.present? && returned.nil?
-      :active if return_at >= DateTime.now else :overdue
-    end
-
-    if returned.present?
-      :returned if returned >= return_at else :late_return
-    end
+    return :reservation if picked_up.nil? && returned.nil?
+    return :active if picked_up.present? && returned.nil?
+    return :returned if picked_up.present? && returned.present?
   end
 end

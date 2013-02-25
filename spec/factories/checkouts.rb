@@ -15,12 +15,12 @@ FactoryGirl.define do
       returned nil
     end
 
-    factory :late_for_pickup do
-      pickup_at DateTime.now - 1.hour
-      return_at DateTime.now + 1.day
-      picked_up nil
-      returned nil
-    end
+    # factory :late_for_pickup do
+    #   pickup_at DateTime.now - 1.hour
+    #   return_at DateTime.now + 1.day
+    #   picked_up nil
+    #   returned nil
+    # end
 
     factory :active do
       pickup_at DateTime.now - 1.day
@@ -36,19 +36,19 @@ FactoryGirl.define do
       returned DateTime.now - 1.days
     end
 
-    factory :overdue do
-      pickup_at DateTime.now - 2.days
-      return_at DateTime.now - 1.days
-      picked_up DateTime.now - 2.days
-      returned nil
-    end
+    # factory :overdue do
+    #   pickup_at DateTime.now - 2.days
+    #   return_at DateTime.now - 1.days
+    #   picked_up DateTime.now - 2.days
+    #   returned nil
+    # end
 
-    factory :late_return do
-      pickup_at DateTime.now - 2.days
-      return_at DateTime.now - 1.days
-      picked_up DateTime.now - 2.days
-      returned DateTime.now - 1.days - 15.minutes
-    end
+    # factory :late_return do
+    #   pickup_at DateTime.now - 2.days
+    #   return_at DateTime.now - 1.days
+    #   picked_up DateTime.now - 2.days
+    #   returned DateTime.now - 1.days + 15.minutes
+    # end
 
     after(:create) do |checkout|
       Array(1..10).sample.times.map do
