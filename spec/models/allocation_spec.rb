@@ -1,5 +1,20 @@
 require 'spec_helper'
 
 describe Allocation do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "is invalid without a checkout" do
+    pending
+  end
+
+  it "is invalid without a thing" do
+    pending
+  end
+
+  it "is invalid without a pickup time" do
+    pending
+  end
+
+  it "is invalid without a return time" do
+    pending
+  end
+
 end
