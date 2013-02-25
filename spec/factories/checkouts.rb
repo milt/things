@@ -1,12 +1,12 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
-
+require 'faker'
 FactoryGirl.define do
   factory :checkout do
-    user FactoryGirl.create(:user)
-    pickup_at DateTime.now
-    return_at DateTime.now + 1.day
-    3.times do
-      allocations << FactoryGirl.create(:allocation, {:thing => FactoryGirl.create(:thing)})
-    end
+    user
+    allocations {
+      Array(1..10).sample.times.map do
+        FactoryGirl.create(:allocation)
+      end
+    }
   end
 end
