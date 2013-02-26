@@ -24,7 +24,7 @@ describe Checkout do
   end
 
 
-#testing status
+#testing status, problems
 
   context "when is a reservation" do
     let(:checkout){ FactoryGirl.create(:reservation) }
@@ -36,19 +36,18 @@ describe Checkout do
     it "should show up in the reservation scope" do
       Checkout.reservation.should include(checkout)
     end
+
+    it "should not have a problem" do
+      checkout.problem.should eq(false)
+    end
+
+    context "and is late for pickup" do
+      let(:checkout){ FactoryGirl.create(:late_for_pickup) }
+      it "should return late for pickup as problem" do
+        checkout.problem.should eq(:late_for_pickup)
+      end
+    end
   end
-
-  # context "when is late for pickup" do
-  #   let(:checkout){ FactoryGirl.create(:late_for_pickup) }
-
-  #   it "should return late_for_pickup as status" do
-  #     checkout.status.should eq(:late_for_pickup)
-  #   end
-
-  #   it "should show up in the late_for_pickup scope" do
-  #     Checkout.late_for_pickup.should include(checkout)
-  #   end
-  # end
 
   context "when is active" do
     let(:checkout){ FactoryGirl.create(:active) }
@@ -60,19 +59,18 @@ describe Checkout do
     it "should show up in the active scope" do
       Checkout.active.should include(checkout)
     end
+
+    it "should not have a problem" do
+      checkout.problem.should eq(false)
+    end
+
+    context "and is overdue" do
+      let(:checkout){ FactoryGirl.create(:overdue) }
+      it "should return overdue as problem" do
+        checkout.problem.should eq(:overdue)
+      end
+    end
   end
-
-  # context "when is overdue" do
-  #   let(:checkout){ FactoryGirl.create(:overdue) }
-
-  #   it "should return overdue as status" do
-  #     checkout.status.should eq(:overdue)
-  #   end
-
-  #   it "should show up in the overdue scope" do
-  #     Checkout.overdue.should include(checkout)
-  #   end
-  # end
 
   context "when has been returned" do
     let(:checkout){ FactoryGirl.create(:returned) }
@@ -84,24 +82,23 @@ describe Checkout do
     it "should show up in the returned scope" do
       Checkout.returned.should include(checkout)
     end
+
+    it "should not have a problem" do
+      checkout.problem.should eq(false)
+    end
+
+    context "and is a late return" do
+      let(:checkout){ FactoryGirl.create(:late_return) }
+      it "should return late_return as problem" do
+        checkout.problem.should eq(:late_return)
+      end
+    end
   end
 
-  # context "when has been returned late" do
-  #   let(:checkout){ FactoryGirl.create(:late_return) }
+# testing problems
+  context "when is late for pickup" do
+  end
 
-  #   it "should return late return as status" do
-  #     checkout.status.should eq(:late_return)
-  #   end
-
-  #   it "should show up in the returned_late scope" do
-  #     Checkout.returned_late.should include(checkout)
-  #   end
-  # end
-
-
-  # context "when is returned late" do
-  # end
-
-  # context "when is picked up late" do
-  # end
+  context "when is overdue" do
+  end
 end

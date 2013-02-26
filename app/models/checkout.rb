@@ -6,11 +6,27 @@ class Checkout < ActiveRecord::Base
   validates :user, :pickup_at, :return_at, :presence => true
   scope :reservation, where(picked_up: nil, returned: nil)
   scope :active, where("picked_up IS NOT NULL AND returned IS NULL")
-  scope :returned, where("picked_up IS NOT NULL AND returned IS NOT NULL")
+  scope :returned, where("returned IS NOT NULL")
 
   def status
     return :reservation if picked_up.nil? && returned.nil?
     return :active if picked_up.present? && returned.nil?
     return :returned if picked_up.present? && returned.present?
+  end
+
+  def problem
+    case status
+    when :reservation
+      return :late_for_pickup if pickup_at < DateTime.now
+      return false
+    when :active
+      return :overdue if return_at < DateTime.now
+      return false
+    when :returned
+      return :late_return if returned > return_at
+      return false
+    else
+      return false
+    end
   end
 end
