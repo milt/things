@@ -25,6 +25,7 @@ gem 'faker'
 gem 'pickle'
 gem 'rails3-jquery-autocomplete'
 gem 'active_attr'
+gem 'simple_form'
 
 group :test do
   gem 'cucumber-rails', :require => false

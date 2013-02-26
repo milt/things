@@ -1,6 +1,6 @@
 class ThingsController < ApplicationController
   load_and_authorize_resource
-  autocomplete :thing, :name
+  #autocomplete :thing, :name
 
   # GET /things
   # GET /things.json
