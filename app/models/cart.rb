@@ -22,15 +22,35 @@ class Cart
 
 
   def add_things(thing_array)
+
+    things_to_array_of_ids
+
     if thing_array.class != Array
       thing_array = [thing_array]
     end
-    thing_array.each do |thing|
-      unless things_to_array_of_ids.include?(thing.id)
-        @things += thing.id.to_s + ","
-      end
+
+    new_things = thing_array.map {|t| t.id}
+
+    @current_things << new_things
+    @current_things.uniq!
+
+    array_of_ids_to_things
+    things_to_objects
+  end
+
+  def remove_things(thing_array)
+
+    things_to_array_of_ids
+
+    if thing_array.class != Array
+      thing_array = [thing_array]
     end
 
+    new_things = thing_array.map {|t| t.id}
+
+    @current_things = @current_things - new_things
+
+    array_of_ids_to_things
     things_to_objects
   end
 
@@ -49,7 +69,11 @@ private
   end
 
   def things_to_array_of_ids
-    @things.split(",").map {|i| i.to_i }
+    @current_things = @things.split(",").map {|i| i.to_i }
+  end
+
+  def array_of_ids_to_things
+    @things = @current_things.join(",")
   end
 
 end
