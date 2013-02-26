@@ -1,5 +1,5 @@
 class Checkout < ActiveRecord::Base
-  attr_accessible :pickup_at, :return_at, :user
+  attr_accessible :pickup_at, :return_at, :user, :user_id
   belongs_to :user
   has_many :allocations, :dependent => :delete_all
   has_many :things, :through => :allocations

@@ -6,12 +6,24 @@ module ControllerMacros
     end
   end
 
+  def login_operator
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:operator]
+      sign_in FactoryGirl.create(:operator)
+    end
+  end
+
+  def login_patron
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:patron]
+      sign_in FactoryGirl.create(:patron)
+    end
+  end
+
   def login_user
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      user = FactoryGirl.create(:user)
-      #user.confirm!
-      sign_in user
+      sign_in FactoryGirl.create(:user)
     end
   end
 end

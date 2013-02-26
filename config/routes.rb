@@ -1,5 +1,5 @@
 Things::Application.routes.draw do
-  resources :things
+  resources :things, :checkouts
 
 
   devise_for :users
