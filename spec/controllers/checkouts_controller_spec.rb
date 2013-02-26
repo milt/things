@@ -109,7 +109,7 @@ describe CheckoutsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested checkout" do
-        checkout = Checkout.create! valid_attributes
+        checkout = FactoryGirl.create(:checkout)
         # Assuming there are no other checkouts in the database, this
         # specifies that the Checkout created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -119,13 +119,13 @@ describe CheckoutsController do
       end
 
       it "assigns the requested checkout as @checkout" do
-        checkout = Checkout.create! valid_attributes
+        checkout = FactoryGirl.create(:checkout)
         put :update, {:id => checkout.to_param, :checkout => valid_attributes}
         assigns(:checkout).should eq(checkout)
       end
 
       it "redirects to the checkout" do
-        checkout = Checkout.create! valid_attributes
+        checkout = FactoryGirl.create(:checkout)
         put :update, {:id => checkout.to_param, :checkout => valid_attributes}
         response.should redirect_to(checkout)
       end
@@ -133,7 +133,7 @@ describe CheckoutsController do
 
     describe "with invalid params" do
       it "assigns the checkout as @checkout" do
-        checkout = Checkout.create! valid_attributes
+        checkout = FactoryGirl.create(:checkout)
         # Trigger the behavior that occurs when invalid params are submitted
         Checkout.any_instance.stub(:save).and_return(false)
         put :update, {:id => checkout.to_param, :checkout => {  }}
@@ -141,7 +141,7 @@ describe CheckoutsController do
       end
 
       it "re-renders the 'edit' template" do
-        checkout = Checkout.create! valid_attributes
+        checkout = FactoryGirl.create(:checkout)
         # Trigger the behavior that occurs when invalid params are submitted
         Checkout.any_instance.stub(:save).and_return(false)
         put :update, {:id => checkout.to_param, :checkout => {  }}
@@ -152,14 +152,14 @@ describe CheckoutsController do
 
   describe "DELETE destroy" do
     it "destroys the requested checkout" do
-      checkout = Checkout.create! valid_attributes
+      checkout = FactoryGirl.create(:checkout)
       expect {
         delete :destroy, {:id => checkout.to_param}
       }.to change(Checkout, :count).by(-1)
     end
 
     it "redirects to the checkouts list" do
-      checkout = Checkout.create! valid_attributes
+      checkout = FactoryGirl.create(:checkout)
       delete :destroy, {:id => checkout.to_param}
       response.should redirect_to(checkouts_url)
     end
