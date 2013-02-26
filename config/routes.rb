@@ -11,6 +11,8 @@ Things::Application.routes.draw do
 
   match 'users' => 'users#index'
   match 'users/index' => 'users#index'
+
+  get 'things/autocomplete_thing_name'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

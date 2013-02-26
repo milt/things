@@ -1,9 +1,12 @@
 class ThingsController < ApplicationController
   load_and_authorize_resource
+  autocomplete :thing, :name
+
   # GET /things
   # GET /things.json
   def index
-    @things = Thing.all
+    @q = Thing.search(params[:q])
+    @things = @q.result(:distinct => true)
 
     respond_to do |format|
       format.html # index.html.erb

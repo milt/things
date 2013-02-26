@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'bundler', '1.2.4'
+gem 'bundler'
 gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
@@ -23,6 +23,7 @@ gem 'rolify'
 gem 'haml-rails'
 gem 'faker'
 gem 'pickle'
+gem 'rails3-jquery-autocomplete'
 
 group :test do
   gem 'cucumber-rails', :require => false

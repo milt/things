@@ -1,0 +1,4 @@
+= search_form_for @q do |f|
+  = f.label :search
+  = f.text_field :name_cont, :autocomplete => things_autocomplete_thing_name_path
+  = f.submit

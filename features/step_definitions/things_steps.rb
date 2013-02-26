@@ -37,9 +37,19 @@ def edit
   click_button "Save"
 end
 
+def add_some_things
+  3.times do
+    FactoryGirl.create(:thing)
+  end
+end
+
 Given /^I am at the things index page$/ do
   visit '/things'
   page.should have_content "Things"
+end
+
+Given /^that there are things in the database$/ do
+  add_some_things
 end
 
 When /^I add a new thing with valid parameters$/ do
@@ -121,4 +131,12 @@ end
 
 Then /^I should be redirected to the index$/ do
   page.should have_content "Things"
+end
+
+When /^I type in the search box$/ do
+  fill_in "search", :with => Thing.first.name
+end
+
+Then /^I should see results below$/ do
+  page.should have_content Thing.first.name # replace for ajax stuff
 end
