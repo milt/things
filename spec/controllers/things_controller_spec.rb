@@ -25,7 +25,7 @@ describe ThingsController do
   # Thing. As you add validations to Thing, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { :name => "Raygun", :description => "Shoots gamma rays" }
+    FactoryGirl.attributes_for(:thing)
   end
 
   # This should return the minimal set of values that should be in the session
