@@ -42,9 +42,14 @@ describe Checkout do
     end
 
     context "and is late for pickup" do
-      let(:checkout){ FactoryGirl.create(:late_for_pickup) }
-      it "should return late for pickup as problem" do
-        checkout.problem.should eq(:late_for_pickup)
+      let(:checkout){ FactoryGirl.create(:late_pickup) }
+
+      it "should return late pickup as problem" do
+        checkout.problem.should eq(:late_pickup)
+      end
+
+      it "should show up in the late pickup scope" do
+        Checkout.late_pickup.should include(checkout)
       end
     end
   end
@@ -66,8 +71,13 @@ describe Checkout do
 
     context "and is overdue" do
       let(:checkout){ FactoryGirl.create(:overdue) }
+
       it "should return overdue as problem" do
         checkout.problem.should eq(:overdue)
+      end
+
+      it "should show up in the overdue scope" do
+        Checkout.overdue.should include(checkout)
       end
     end
   end
@@ -89,16 +99,14 @@ describe Checkout do
 
     context "and is a late return" do
       let(:checkout){ FactoryGirl.create(:late_return) }
+
       it "should return late_return as problem" do
         checkout.problem.should eq(:late_return)
       end
+
+      it "should show up in the late return scope" do
+        Checkout.late_return.should include(checkout)
+      end
     end
-  end
-
-# testing problems
-  context "when is late for pickup" do
-  end
-
-  context "when is overdue" do
   end
 end

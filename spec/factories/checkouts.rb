@@ -14,7 +14,7 @@ FactoryGirl.define do
       picked_up nil
       returned nil
 
-      factory :late_for_pickup do
+      factory :late_pickup do
         pickup_at DateTime.now - 1.hour
         return_at DateTime.now + 1.day
       end
