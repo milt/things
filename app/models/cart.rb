@@ -56,6 +56,7 @@ class Cart
 
   def things
     unless @things == ""
+      things_to_array_of_ids
       things_to_objects
     else
       return []
@@ -65,7 +66,7 @@ class Cart
 private
 
   def things_to_objects
-    things_to_array_of_ids.map {|i| Thing.find(i)}
+    @current_things.map {|i| Thing.find(i)}
   end
 
   def things_to_array_of_ids
