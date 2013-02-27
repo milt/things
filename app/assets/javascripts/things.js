@@ -1,8 +1,8 @@
-$("#things-search").submit(function() {
-    $.get($(this).attr("action"), $(this).serialize(), null, "script");
-    return false;
+$(document).ready(function(){
+  $("#things-search").submit(function() {
+      $.get($(this).attr("action"), $(this).serialize(), null, "script");
+      return false;
   });
 
-$(function() {
-  $("#q_name_cont").typeahead()
-}
+  $("#q_name_cont.string.required").typeahead();
+});
