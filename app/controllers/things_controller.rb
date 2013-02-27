@@ -11,6 +11,7 @@ class ThingsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @things }
+      format.js
     end
   end
 
