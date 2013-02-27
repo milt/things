@@ -1,3 +1,3 @@
-= simple_form_for(@q, :remote => true, :update => 'results', :url => things_path, :html => {:method => :get, :class => 'form-horizontal', :id => 'things-search' }) do |f|
-  = f.input :name_cont
-  = f.button :submit
+= search_form_for(@q, :builder => SimpleForm::FormBuilder, :remote => true, :update => 'results', :url => things_path, :html => {:method => :get, :class => 'form-search', :id => 'things-search' }) do |f|
+  = f.input :name_cont, data: {provide: 'typeahead', source: "['hello','heythere','heaven']"}
+  = f.button :submit, "Search"
