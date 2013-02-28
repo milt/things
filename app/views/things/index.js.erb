@@ -1,2 +1,2 @@
-$("#result_count").html("<h4>Search Results:</h4><%= pluralize(@q.result.count, 'record') + ' returned' %>");
+$("#no_results").html("<% if @q.result.count < 1 %><div class='alert'>No things found!</div><% end %>");
 $("#results").html("<%= escape_javascript(render 'result') if @q.result.count >= 1 %>");

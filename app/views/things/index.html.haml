@@ -1,27 +1,7 @@
 %h1 Things
 %p= render 'search_form'
 
-#result_count
-#results
-#all_things
-  = render 'result'
-
-%table
-  %tr
-    %th Name
-    %th Description
-    %th
-    %th
-    %th
-
-  - @things.each do |thing|
-    %tr
-      %td= thing.name
-      %td= thing.description
-      %td= link_to 'Show', thing
-      %td= link_to 'Edit', edit_thing_path(thing)
-      %td= link_to 'Destroy', thing, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
+#no_results
+.table-hover#results
 
 = link_to 'New Thing', new_thing_path
