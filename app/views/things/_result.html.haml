@@ -4,6 +4,7 @@
       %th ID
       %th Name
       %th Description
+      %th Actions
 
 
     - @things.each do |thing|
@@ -11,4 +12,5 @@
         %td= thing.id.to_s
         %td= thing.name
         %td= thing.description
+        %td= render 'actions', {:thing => thing}
   = paginate @things
