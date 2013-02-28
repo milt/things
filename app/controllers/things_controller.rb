@@ -7,6 +7,7 @@ class ThingsController < ApplicationController
   def index
     @q = Thing.search(params[:q])
     @things = @q.result(:distinct => true)
+    @typeahead_names = Thing.pluck(:name)
 
     respond_to do |format|
       format.html # index.html.erb
