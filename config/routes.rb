@@ -11,6 +11,7 @@ Things::Application.routes.draw do
 
   match 'users' => 'users#index'
   match 'users/index' => 'users#index'
+  match 'things/:id/delete' => 'things#destroy', as: :delete_thing
 
   #get 'things/autocomplete_thing_name'
   # The priority is based upon order of creation:

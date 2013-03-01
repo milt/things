@@ -6,6 +6,5 @@
     %button.btn{ class: 'dropdown-toggle', data: {toggle: 'dropdown'}}
       %span.caret
     %ul.dropdown-menu
-      %li= link_to 'Show', thing
       %li= (link_to 'Edit', edit_thing_path(thing)) if can? :update, thing
       %li= (link_to 'Destroy', thing, method: :delete, data: { confirm: 'Are you sure?' }) if can? :destroy, thing

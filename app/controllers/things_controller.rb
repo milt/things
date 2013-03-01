@@ -82,7 +82,7 @@ class ThingsController < ApplicationController
     @thing.destroy
 
     respond_to do |format|
-      format.html { redirect_to things_url }
+      format.html { redirect_to things_url, notice: 'Thing was successfully deleted.' }
       format.json { head :no_content }
     end
   end

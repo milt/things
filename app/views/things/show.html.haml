@@ -1,14 +1,10 @@
-%p#notice= notice
-%p
-  %b Thing #
-  = @thing.id
-%p
-  %b Name:
-  = @thing.name
-%p
-  %b Description:
-  = @thing.description
+.page-header
+  %h1
+    %small= @thing.id
+    = @thing.name
+%b Description
+.well
+  %p
+    = @thing.description
 
-= link_to 'Edit', edit_thing_path(@thing)
-\|
-= link_to 'Back', things_path
+= render 'actions_show', {:thing => @thing}
