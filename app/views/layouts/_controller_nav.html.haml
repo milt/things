@@ -4,7 +4,7 @@
       %ul.nav
         - if current_page?(action: 'index')
           %li.active
-            %a.brand{href: '#'}= controller_name.capitalize
+            %a.brand{href: url_for(action: 'index')}= controller_name.capitalize
         - else
           %li
             %a.brand{href: url_for(action: 'index')}= controller_name.capitalize
@@ -12,7 +12,7 @@
         - if can? :create, @resource
           - if current_page?(action: 'new')
             %li.active
-              %a{href: '#'} New
+              %a{href: current_page?(action: 'new')} New
           - else
             %li
               %a{href: url_for(action: 'new')} New

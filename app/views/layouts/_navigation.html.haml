@@ -1,8 +1,16 @@
 %ul.nav
-  %li
-    %a.brand{href: root_path} Home
-  %li
-    %a{href: things_path} Things
+  - if current_page?(controller: 'home')
+    %li.active
+      %a.brand{href: root_path} Home
+  - else
+    %li
+      %a.brand{href: root_path} Home
+  - if current_page?(controller: 'things')
+    %li.active
+      %a{href: things_path} Things
+  - else
+    %li
+      %a{href: things_path} Things
 
   - if user_signed_in?
     %li
