@@ -1,5 +1,5 @@
 - content_for :controller_nav do
-  = render 'things/nav'
+  = render 'layouts/controller_nav'
 - content_for :content do
   = content_for?(:things_content) ? yield(:things_content) : yield
 = render :template => 'layouts/application'
