@@ -1,8 +1,11 @@
-.btn-group
+- if (can? :read, thing) && (cannot? :update, :destroy, thing)
   %a.btn{href: thing_path(thing)} Show
-  %button.btn{ class: 'dropdown-toggle', data: {toggle: 'dropdown'}}
-    %span.caret
-  %ul.dropdown-menu
-    %li= link_to 'Show', thing
-    %li= link_to 'Edit', edit_thing_path(thing)
-    %li= link_to 'Destroy', thing, method: :delete, data: { confirm: 'Are you sure?' }
+- else
+  .btn-group
+    %a.btn{href: thing_path(thing)} Show
+    %button.btn{ class: 'dropdown-toggle', data: {toggle: 'dropdown'}}
+      %span.caret
+    %ul.dropdown-menu
+      %li= link_to 'Show', thing
+      %li= (link_to 'Edit', edit_thing_path(thing)) if can? :update, thing
+      %li= (link_to 'Destroy', thing, method: :delete, data: { confirm: 'Are you sure?' }) if can? :destroy, thing
