@@ -3,50 +3,40 @@ require 'faker'
 FactoryGirl.define do
   factory :checkout do
     user
-    pickup_at DateTime.now
-    return_at DateTime.now + 1.day
-    picked_up DateTime.now
-    returned nil
 
     factory :reservation do
-      pickup_at DateTime.now + 1.day
-      return_at DateTime.now + 2.days
-      picked_up nil
-      returned nil
+      Array(1..10).sample.times.map do
+        FactoryGirl.create(:reservation_alloc, checkout: checkout)
+      end
+    end
 
-      factory :late_pickup do
-        pickup_at DateTime.now - 1.hour
-        return_at DateTime.now + 1.day
+    factory :late_pickup do
+      Array(1..10).sample.times.map do
+        FactoryGirl.create(:late_pickup_alloc, checkout: checkout)
       end
     end
 
     factory :active do
-      pickup_at DateTime.now - 1.day
-      return_at DateTime.now + 1.day
-      picked_up DateTime.now - 1.day
-      returned nil
+      Array(1..10).sample.times.map do
+        FactoryGirl.create(:active_alloc, checkout: checkout)
+      end
+    end
 
-      factory :overdue do
-        pickup_at DateTime.now - 2.days
-        return_at DateTime.now - 1.days
-        picked_up DateTime.now - 2.days
+    factory :overdue do
+      Array(1..10).sample.times.map do
+        FactoryGirl.create(:overdue_alloc, checkout: checkout)
       end
     end
 
     factory :returned do
-      pickup_at DateTime.now - 2.days
-      return_at DateTime.now - 1.days
-      picked_up DateTime.now - 2.days
-      returned DateTime.now - 1.days
-
-      factory :late_return do
-        returned DateTime.now - 1.days + 15.minutes
+      Array(1..10).sample.times.map do
+        FactoryGirl.create(:returned_alloc, checkout: checkout)
       end
     end
 
-    after(:create) do |checkout|
+    factory :late_return do
       Array(1..10).sample.times.map do
-        FactoryGirl.create(:allocation, checkout: checkout, pickup_at: checkout.pickup_at, return_at: checkout.return_at)
+        FactoryGirl.create(:late_return_alloc, checkout: checkout)
       end
     end
   end
