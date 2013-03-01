@@ -1,13 +1,2 @@
-.navbar
-  .navbar-inner
-    %ul.nav
-      %li.brand.active Things
-      %li.divider-vertical
-      - if can? :create, @thing
-        %li
-          %a{href: new_thing_path} New
-        %li.divider-vertical
-    = render 'search_form'
-
 #no_results
 .table-hover#results
