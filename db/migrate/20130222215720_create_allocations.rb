@@ -5,6 +5,8 @@ class CreateAllocations < ActiveRecord::Migration
       t.references :thing
       t.datetime :pickup_at
       t.datetime :return_at
+      t.datetime :picked_up
+      t.datetime :returned
 
       t.timestamps
     end

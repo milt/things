@@ -11,13 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225183617) do
+ActiveRecord::Schema.define(:version => 20130222215720) do
 
   create_table "allocations", :force => true do |t|
     t.integer  "checkout_id"
     t.integer  "thing_id"
     t.datetime "pickup_at"
     t.datetime "return_at"
+    t.datetime "picked_up"
+    t.datetime "returned"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -26,12 +28,8 @@ ActiveRecord::Schema.define(:version => 20130225183617) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
-    t.datetime "pickup_at"
-    t.datetime "return_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.datetime "picked_up"
-    t.datetime "returned"
   end
 
   create_table "rails_admin_histories", :force => true do |t|
