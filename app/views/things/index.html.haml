@@ -1,5 +1,15 @@
-%h1 Things
-%p= render 'search_form'
+.row
+  .span4
+    .pull-left
+      %h1 Things
+  .span8
+
+.navbar
+  .navbar-inner
+    .nav
+      - if can? :create, @thing
+        %a{href: new_thing_path} New
+    = render 'search_form'
 
 #no_results
 .table-hover#results
