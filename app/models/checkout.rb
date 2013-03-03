@@ -1,5 +1,5 @@
 class Checkout < ActiveRecord::Base
-  attr_accessible :user, :user_id
+  attr_accessible :user, :user_id, :pickup_at, :return_at
   belongs_to :user
   has_many :allocations, :dependent => :delete_all
   has_many :things, :through => :allocations
@@ -12,26 +12,6 @@ class Checkout < ActiveRecord::Base
   # scope :late_pickup, lambda { reservation.where("pickup_at < ?", DateTime.now) }
   # scope :overdue, lambda { active.where("return_at < ?", DateTime.now) }
   # scope :late_return, lambda { returned.where("return_at < returned") }
-
-  def pickup_at
-    allocations.map(&:pickup_at).uniq
-  end
-
-  def return_at
-    allocations.map(&:pickup_at).uniq
-  end
-
-  def allocations_cannot_have_different_pickup_times
-    if pickup_at.count > 1
-      errors.add(:allocations, "can't have different pickup times")
-    end
-  end
-
-  def allocations_cannot_have_different_return_times
-    if return_at.count > 1
-      errors.add(:allocations, "can't have different return times")
-    end
-  end
 
 
 

@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20130222215720) do
 
   create_table "checkouts", :force => true do |t|
     t.integer  "user_id"
+    t.datetime "pickup_at"
+    t.datetime "return_at"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
