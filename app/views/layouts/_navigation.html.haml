@@ -1,5 +1,5 @@
 %ul.nav
-  - unless devise_controller? # hack until I figure out why these links don't work from the devise controller
+  - unless devise_controller?
     - if current_page?(controller: 'home')
       %li.active
         %a.brand{href: root_path} Home
@@ -12,6 +12,12 @@
     - else
       %li
         %a{href: things_path} Things
+  - else
+    %li
+      %a.brand{href: root_path} Home
+    %li
+      %a{href: things_path} Things
+
 
   - if user_signed_in?
     %li
