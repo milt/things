@@ -14,28 +14,54 @@ class Allocation < ActiveRecord::Base
   # scope :overdue, lambda { active.where("return_at < ?", DateTime.now) }
   # scope :late_return, lambda { returned.where("return_at < returned") }
 
-  def status
-    return :reserved if picked_up.nil? && returned.nil?
-    return :active if picked_up.present? && returned.nil?
-    return :returned if picked_up.present? && returned.present?
-  end
+    @@possible_states = [:reserved,
+              :active,
+              :returned,
+              :late_pickup,
+              :overdue,
+              :late_return
+            ]
 
-
-  def problem
-    case status
-    when :reserved
-      return :late_pickup if pickup_at < DateTime.now
-      return false
-    when :active
-      return :overdue if return_at < DateTime.now
-      return false
-    when :returned
-      return :late_return if returned > return_at
-      return false
-    else
-      return false
+  def self.create_status_finder(name)
+    singleton_class.instance_eval do
+      define_method(name) { return all.select {|a| a.status == name } }
     end
   end
 
+  for state in @@possible_states
+    create_status_finder(state)
+  end
 
+  def status
+    if picked_up.nil? && returned.nil?
+      if pickup_at < DateTime.now
+        return :late_pickup
+      else
+        return :reserved
+      end
+    end
+    if picked_up.present? && returned.nil?
+      if return_at < DateTime.now
+        return :overdue
+      else
+        return :active
+      end
+    end
+    if picked_up.present? && returned.present?
+      if return_at < returned
+        return :late_return
+      else
+        return :returned
+      end
+    end
+  end
+
+  def problem?
+    case status
+    when :reserved, :active, :returned
+      return false
+    else
+      return status
+    end
+  end
 end

@@ -13,27 +13,48 @@ class Checkout < ActiveRecord::Base
   # scope :overdue, lambda { active.where("return_at < ?", DateTime.now) }
   # scope :late_return, lambda { returned.where("return_at < returned") }
 
+  class << self
 
+    states = [:reserved,
+              :active,
+              :returned,
+              :late_pickup,
+              :overdue,
+              :late_return
+            ]
 
-  # def status
-  #   return :reservation if picked_up.nil? && returned.nil?
-  #   return :active if picked_up.present? && returned.nil?
-  #   return :returned if picked_up.present? && returned.present?
-  # end
+    for state in states
+      define_method(state) do
+        where(status: state)
+      end
+    end
+  end
 
-  # def problem
-  #   case status
-  #   when :reservation
-  #     return :late_pickup if pickup_at < DateTime.now
-  #     return false
-  #   when :active
-  #     return :overdue if return_at < DateTime.now
-  #     return false
-  #   when :returned
-  #     return :late_return if returned > return_at
-  #     return false
-  #   else
-  #     return false
-  #   end
-  # end
+  def status
+    allocations_statuses = allocations.map(&:status).uniq
+    if allocations_statuses.count == 1
+      return allocations_statuses.pop
+    elsif allocations_statuses.count > 1
+      complex_status = {}
+      for allocation in allocations
+        complex_status[allocation.status] += [allocation]
+      end
+      return complex_status
+    else
+      return :no_allocations
+    end
+  end
+
+  def problems?
+    problem_hash = {}
+    for allocation in allocations
+      problem_hash[allocation] = allocation.problem? if allocation.problem?
+    end
+
+    if problem_hash.empty?
+      return false
+    else
+      return problem_hash
+    end
+  end
 end
