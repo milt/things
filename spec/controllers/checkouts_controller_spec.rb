@@ -26,7 +26,7 @@ describe CheckoutsController do
   # update the return value of this method accordingly.
   def valid_attributes
     user = FactoryGirl.create(:patron)
-    attrs = FactoryGirl.attributes_for(:reservation).delete_if {|k,v| (k == :picked_up) || (k == :returned)}
+    attrs = FactoryGirl.attributes_for(:reservation_checkout)
     attrs[:user_id] = user.id #temp, modify controller to really handle user
     return attrs
   end

@@ -10,7 +10,7 @@ describe Checkout do
   end
 
   it "should get rid of its allocations if it is deleted" do
-    checkout = FactoryGirl.create(:active)
+    checkout = FactoryGirl.create(:active_checkout)
     checkout.destroy
     Allocation.where("checkout_id",checkout.id).should be_empty
   end
@@ -18,87 +18,87 @@ describe Checkout do
 
 #testing status, problems
 
-  context "when is a reservation" do
-    let(:checkout){ FactoryGirl.create(:reservation) }
+  # context "when is a reservation" do
+  #   let(:checkout){ FactoryGirl.create(:reservation) }
 
-    it "should return reservation as status" do
-      checkout.status.should eq(:reservation)
-    end
+  #   it "should return reservation as status" do
+  #     checkout.status.should eq(:reservation)
+  #   end
 
-    it "should show up in the reservation scope" do
-      Checkout.reservation.should include(checkout)
-    end
+  #   it "should show up in the reservation scope" do
+  #     Checkout.reservation.should include(checkout)
+  #   end
 
-    it "should not have a problem" do
-      checkout.problem.should eq(false)
-    end
+  #   it "should not have a problem" do
+  #     checkout.problem.should eq(false)
+  #   end
 
-    context "and is late for pickup" do
-      let(:checkout){ FactoryGirl.create(:late_pickup) }
+  #   context "and is late for pickup" do
+  #     let(:checkout){ FactoryGirl.create(:late_pickup) }
 
-      it "should return late pickup as problem" do
-        checkout.problem.should eq(:late_pickup)
-      end
+  #     it "should return late pickup as problem" do
+  #       checkout.problem.should eq(:late_pickup)
+  #     end
 
-      it "should show up in the late pickup scope" do
-        Checkout.late_pickup.should include(checkout)
-      end
-    end
-  end
+  #     it "should show up in the late pickup scope" do
+  #       Checkout.late_pickup.should include(checkout)
+  #     end
+  #   end
+  # end
 
-  context "when is active" do
-    let(:checkout){ FactoryGirl.create(:active) }
+  # context "when is active" do
+  #   let(:checkout){ FactoryGirl.create(:active) }
 
-    it "should return active as status" do
-      checkout.status.should eq(:active)
-    end
+  #   it "should return active as status" do
+  #     checkout.status.should eq(:active)
+  #   end
 
-    it "should show up in the active scope" do
-      Checkout.active.should include(checkout)
-    end
+  #   it "should show up in the active scope" do
+  #     Checkout.active.should include(checkout)
+  #   end
 
-    it "should not have a problem" do
-      checkout.problem.should eq(false)
-    end
+  #   it "should not have a problem" do
+  #     checkout.problem.should eq(false)
+  #   end
 
-    context "and is overdue" do
-      let(:checkout){ FactoryGirl.create(:overdue) }
+  #   context "and is overdue" do
+  #     let(:checkout){ FactoryGirl.create(:overdue) }
 
-      it "should return overdue as problem" do
-        checkout.problem.should eq(:overdue)
-      end
+  #     it "should return overdue as problem" do
+  #       checkout.problem.should eq(:overdue)
+  #     end
 
-      it "should show up in the overdue scope" do
-        Checkout.overdue.should include(checkout)
-      end
-    end
-  end
+  #     it "should show up in the overdue scope" do
+  #       Checkout.overdue.should include(checkout)
+  #     end
+  #   end
+  # end
 
-  context "when has been returned" do
-    let(:checkout){ FactoryGirl.create(:returned) }
+  # context "when has been returned" do
+  #   let(:checkout){ FactoryGirl.create(:returned) }
 
-    it "should return returned as status" do
-      checkout.status.should eq(:returned)
-    end
+  #   it "should return returned as status" do
+  #     checkout.status.should eq(:returned)
+  #   end
 
-    it "should show up in the returned scope" do
-      Checkout.returned.should include(checkout)
-    end
+  #   it "should show up in the returned scope" do
+  #     Checkout.returned.should include(checkout)
+  #   end
 
-    it "should not have a problem" do
-      checkout.problem.should eq(false)
-    end
+  #   it "should not have a problem" do
+  #     checkout.problem.should eq(false)
+  #   end
 
-    context "and is a late return" do
-      let(:checkout){ FactoryGirl.create(:late_return) }
+  #   context "and is a late return" do
+  #     let(:checkout){ FactoryGirl.create(:late_return) }
 
-      it "should return late_return as problem" do
-        checkout.problem.should eq(:late_return)
-      end
+  #     it "should return late_return as problem" do
+  #       checkout.problem.should eq(:late_return)
+  #     end
 
-      it "should show up in the late return scope" do
-        Checkout.late_return.should include(checkout)
-      end
-    end
-  end
+  #     it "should show up in the late return scope" do
+  #       Checkout.late_return.should include(checkout)
+  #     end
+  #   end
+  # end
 end
