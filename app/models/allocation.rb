@@ -14,13 +14,13 @@ class Allocation < ActiveRecord::Base
   # scope :overdue, lambda { active.where("return_at < ?", DateTime.now) }
   # scope :late_return, lambda { returned.where("return_at < returned") }
 
-    @@possible_states = [:reserved,
-              :active,
-              :returned,
-              :late_pickup,
-              :overdue,
-              :late_return
-            ]
+  @@possible_states = [:reserved,
+            :active,
+            :returned,
+            :late_pickup,
+            :overdue,
+            :late_return
+          ]
 
   def self.create_status_finder(name)
     singleton_class.instance_eval do
@@ -32,23 +32,27 @@ class Allocation < ActiveRecord::Base
     create_status_finder(state)
   end
 
-  def status
+  def status(*args) #optionally, a hash of params for checkout can be passed in to reduce database calls
+    options = args.extract_options!
+    parent_pickup_at = options['pickup_at'] || pickup_at
+    parent_return_at = options['return_at'] || return_at
+    
     if picked_up.nil? && returned.nil?
-      if pickup_at < DateTime.now
+      if parent_pickup_at < DateTime.now
         return :late_pickup
       else
         return :reserved
       end
     end
     if picked_up.present? && returned.nil?
-      if return_at < DateTime.now
+      if parent_return_at < DateTime.now
         return :overdue
       else
         return :active
       end
     end
     if picked_up.present? && returned.present?
-      if return_at < returned
+      if parent_return_at < returned
         return :late_return
       else
         return :returned
@@ -56,12 +60,13 @@ class Allocation < ActiveRecord::Base
     end
   end
 
-  def problem?
-    case status
+  def problem?(*args)
+    checkout_attrs = args.extract_options! || self.checkout.attributes
+    case status(checkout_attrs)
     when :reserved, :active, :returned
       return false
     else
-      return status
+      return status(checkout_attrs)
     end
   end
 end
