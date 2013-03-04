@@ -3,8 +3,6 @@ class CreateAllocations < ActiveRecord::Migration
     create_table :allocations do |t|
       t.references :checkout
       t.references :thing
-      t.datetime :pickup_at
-      t.datetime :return_at
       t.datetime :picked_up
       t.datetime :returned
 

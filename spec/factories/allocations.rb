@@ -3,10 +3,8 @@ require 'faker'
 
 FactoryGirl.define do
   factory :allocation do
-    checkout nil
+    checkout
     thing
-    pickup_at nil
-    return_at nil
     picked_up nil
     returned nil
   end
