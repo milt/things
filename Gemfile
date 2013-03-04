@@ -27,6 +27,8 @@ gem 'rails3-jquery-autocomplete'
 gem 'active_attr'
 gem 'simple_form'
 
+gem "bullet", :group => "development"
+
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
