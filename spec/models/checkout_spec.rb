@@ -5,20 +5,29 @@ describe Checkout do
     FactoryGirl.create(:checkout).should be_valid
   end
 
-  it "is invalid without a user" do
-    FactoryGirl.build(:checkout, user: nil).should_not be_valid
-  end
-
   it "should get rid of its allocations if it is deleted" do
     checkout = FactoryGirl.create(:active_checkout)
     checkout.destroy
     Allocation.where("checkout_id",checkout.id).should be_empty
   end
 
-  it "should validate all of its allocations when it is created or updated" do
-    pending
-  end
+  context "when it is created" do
+    
+    it "is invalid without a user" do
+      FactoryGirl.build(:checkout, user: nil).should_not be_valid
+    end
+    it "is invalid with invalid allocations" do
+      prior_checkout = FactoryGirl.build(:checkout)
+      prior_alloc = FactoryGirl.create(:allocation, checkout: prior_checkout)
+      prior_checkout.save
 
+      contested_thing = prior_alloc.thing
+
+      invalid_checkout = FactoryGirl.build(:checkout)
+      invalid_alloc = FactoryGirl.build(:allocation, checkout: invalid_checkout, thing: contested_thing)
+      invalid_checkout.should_not be_valid
+    end
+  end
 
 #testing status, problems
 
