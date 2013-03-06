@@ -6,31 +6,78 @@ class Allocation < ActiveRecord::Base
   validates :checkout, :thing, :presence => true
   delegate :pickup_at, :return_at, to: :checkout
 
-  # scope :reservation, where(picked_up: nil, returned: nil)
-  # scope :active, where("picked_up IS NOT NULL AND returned IS NULL")
-  # scope :returned, where("returned IS NOT NULL")
+  # @@possible_states = [:reserved,
+  #           :active,
+  #           :returned,
+  #           :late_pickup,
+  #           :overdue,
+  #           :late_return
+  #         ]
 
-  # scope :late_pickup, lambda { reservation.where("pickup_at < ?", DateTime.now) }
-  # scope :overdue, lambda { active.where("return_at < ?", DateTime.now) }
-  # scope :late_return, lambda { returned.where("return_at < returned") }
+  # def self.create_status_finder(name)
+  #   singleton_class.instance_eval do
+  #     define_method(name) { return all.select {|a| a.status == name } }
+  #   end
+  # end
 
-  @@possible_states = [:reserved,
-            :active,
-            :returned,
-            :late_pickup,
-            :overdue,
-            :late_return
-          ]
+  # for state in @@possible_states
+  #   create_status_finder(state)
+  # end
 
-  def self.create_status_finder(name)
-    singleton_class.instance_eval do
-      define_method(name) { return all.select {|a| a.status == name } }
-    end
+  def self.reserved
+    includes{checkout}.where{
+      ((picked_up.eq nil) & (returned.eq nil)) &
+      (checkout.pickup_at >= DateTime.now)
+    }
   end
 
-  for state in @@possible_states
-    create_status_finder(state)
+  def self.late_pickup
+    includes{checkout}.where{
+      ((picked_up.eq nil) & (returned.eq nil)) &
+      (checkout.pickup_at < DateTime.now)
+    }
   end
+
+  def self.active
+    includes{checkout}.where{
+      ((picked_up.not_eq nil) & (returned.eq nil)) &
+      (checkout.return_at >= DateTime.now)
+    }
+  end
+
+  def self.overdue
+    includes{checkout}.where{
+      ((picked_up.not_eq nil) & (returned.eq nil)) &
+      (checkout.return_at < DateTime.now)
+    }
+  end
+
+  def self.returned
+    includes{checkout}.where{
+      ((picked_up.not_eq nil) & (returned.not_eq nil)) & (returned <= checkout.return_at)
+    }
+  end
+
+  def self.late_return
+    includes{checkout}.where{
+      ((picked_up.not_eq nil) & (returned.not_eq nil)) & (returned > checkout.return_at)
+    }
+  end
+
+
+  def self.find_for_range(b,e)
+    joins{:checkout}.where{
+                            ((checkout.pickup_at < b) & (checkout.return_at > e)) |
+                            ((checkout.pickup_at >= b) & (checkout.return_at <= e)) |
+                            ((checkout.pickup_at < b) & (checkout.return_at <= e) & (checkout.return_at >= b)) |
+                            ((checkout.pickup_at >= b) & (checkout.pickup_at <= e) & (checkout.return_at > e)) |
+                            (
+                              ((checkout.pickup_at < b) & (checkout.return_at < b)) &
+                              (picked_up.present? & returned.nil?)
+                            )
+                          }
+  end
+
 
   def status(*args) #optionally, a hash of params for checkout can be passed in to reduce database calls
     options = args.extract_options!

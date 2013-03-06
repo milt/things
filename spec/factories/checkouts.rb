@@ -50,15 +50,28 @@ FactoryGirl.define do
       factory :late_return_checkout do #problem: patron returned the item late!
         pickup_at DateTime.now - 2.days
         return_at DateTime.now - 1.day
+
+        after(:create) do |checkout|
+          Array(1..10).sample.times.map do
+            FactoryGirl.create(:allocation,
+                                checkout: checkout,
+                                picked_up: checkout.pickup_at,
+                                returned: checkout.return_at + 1.hour
+                                )
+          end
+        end
       end
 
+
       after(:create) do |checkout|
-        Array(1..10).sample.times.map do
-          FactoryGirl.create(:allocation,
-                              checkout: checkout,
-                              picked_up: checkout.pickup_at,
-                              returned: checkout.return_at + 1.hour
-                              )
+        if checkout.allocations.empty?
+          Array(1..10).sample.times.map do
+            FactoryGirl.create(:allocation,
+                                checkout: checkout,
+                                picked_up: checkout.pickup_at,
+                                returned: checkout.return_at
+                                )
+          end
         end
       end
     end

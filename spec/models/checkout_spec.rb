@@ -15,6 +15,10 @@ describe Checkout do
     Allocation.where("checkout_id",checkout.id).should be_empty
   end
 
+  it "should validate all of its allocations when it is created or updated" do
+    pending
+  end
+
 
 #testing status, problems
 
