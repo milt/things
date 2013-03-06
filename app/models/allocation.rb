@@ -6,23 +6,6 @@ class Allocation < ActiveRecord::Base
   validates :checkout, :thing, :presence => true
   delegate :pickup_at, :return_at, to: :checkout
 
-  # @@possible_states = [:reserved,
-  #           :active,
-  #           :returned,
-  #           :late_pickup,
-  #           :overdue,
-  #           :late_return
-  #         ]
-
-  # def self.create_status_finder(name)
-  #   singleton_class.instance_eval do
-  #     define_method(name) { return all.select {|a| a.status == name } }
-  #   end
-  # end
-
-  # for state in @@possible_states
-  #   create_status_finder(state)
-  # end
 
   def self.reserved
     includes{checkout}.where{
@@ -73,7 +56,7 @@ class Allocation < ActiveRecord::Base
                             ((checkout.pickup_at >= b) & (checkout.pickup_at <= e) & (checkout.return_at > e)) |
                             (
                               ((checkout.pickup_at < b) & (checkout.return_at < b)) &
-                              (picked_up.present? & returned.nil?)
+                              ((picked_up.not_eq nil) & (returned.eq nil))
                             )
                           }
   end
