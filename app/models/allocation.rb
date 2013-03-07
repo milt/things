@@ -1,10 +1,12 @@
 class Allocation < ActiveRecord::Base
   belongs_to :thing
   belongs_to :checkout
-  has_one :user, :through => :checkout
+  has_one :user, through: :checkout
   attr_accessible :thing, :checkout, :picked_up, :returned
-  validates :checkout, :thing, :presence => true
+  validates :checkout, :thing, presence: true
   delegate :pickup_at, :return_at, to: :checkout
+  # validate :cannot_reserve_if_reserved
+  # validate :cannot_pickup_if_out
 
 
   def self.reserved
@@ -47,9 +49,8 @@ class Allocation < ActiveRecord::Base
     }
   end
 
-
   def self.find_for_range(b,e)
-    joins{:checkout}.where{
+    includes{checkout}.where{
                             ((checkout.pickup_at < b) & (checkout.return_at > e)) |
                             ((checkout.pickup_at >= b) & (checkout.return_at <= e)) |
                             ((checkout.pickup_at < b) & (checkout.return_at <= e) & (checkout.return_at >= b)) |
@@ -60,7 +61,6 @@ class Allocation < ActiveRecord::Base
                             )
                           }
   end
-
 
   def status(*args) #optionally, a hash of params for checkout can be passed in to reduce database calls
     options = args.extract_options!
