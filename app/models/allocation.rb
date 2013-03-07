@@ -5,8 +5,19 @@ class Allocation < ActiveRecord::Base
   attr_accessible :thing, :checkout, :picked_up, :returned
   validates :checkout, :thing, presence: true
   delegate :pickup_at, :return_at, to: :checkout
-  # validate :cannot_reserve_if_reserved
+  validate :cannot_reserve_if_conflict, unless: Proc.new {|a| a.thing.blank? || a.checkout.blank?}
   # validate :cannot_pickup_if_out
+
+  def cannot_reserve_if_conflict
+    conflicts = find_conflicts
+    if conflicts
+      conflicts.keys.each do |status|
+        conflicts[status].each do |allocation|
+          errors.add(:base, "Conflicts with #{status.to_s} allocation #{allocation.id.to_s} from checkout #{allocation.checkout_id.to_s}")
+        end
+      end
+    end
+  end
 
 
   def self.reserved
@@ -60,6 +71,17 @@ class Allocation < ActiveRecord::Base
                               ((picked_up.not_eq nil) & (returned.eq nil))
                             )
                           }
+  end
+
+  def find_conflicts
+    conflicts = thing.allocations.find_for_range(pickup_at,return_at)
+    conflicts_hash = {}
+
+    if conflicts.empty?
+      return false
+    else
+      return conflicts.group_by(&:status)
+    end
   end
 
   def status(*args) #optionally, a hash of params for checkout can be passed in to reduce database calls

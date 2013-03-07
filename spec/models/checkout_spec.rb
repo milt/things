@@ -16,16 +16,27 @@ describe Checkout do
     it "is invalid without a user" do
       FactoryGirl.build(:checkout, user: nil).should_not be_valid
     end
-    it "is invalid with invalid allocations" do
-      prior_checkout = FactoryGirl.build(:checkout)
-      prior_alloc = FactoryGirl.create(:allocation, checkout: prior_checkout)
-      prior_checkout.save
 
-      contested_thing = prior_alloc.thing
+    context "and items are reserved" do
+      it "is invalid because of invalid allocations" do
+        prior_checkout = FactoryGirl.create(:reservation_checkout)
+        contested_thing = prior_checkout.things.first
 
-      invalid_checkout = FactoryGirl.build(:checkout)
-      invalid_alloc = FactoryGirl.build(:allocation, checkout: invalid_checkout, thing: contested_thing)
-      invalid_checkout.should_not be_valid
+        checkout = FactoryGirl.build(:checkout, pickup_at: prior_checkout.pickup_at, return_at: prior_checkout.return_at)
+        new_allocation = checkout.allocations.build(thing: contested_thing)
+        checkout.should_not be_valid
+      end
+    end
+
+    context "and items are overdue" do
+      it "is invalid because of invalid allocations" do
+        prior_checkout = FactoryGirl.create(:overdue_checkout)
+        contested_thing = prior_checkout.things.first
+
+        checkout = FactoryGirl.build(:checkout)
+        checkout.allocations.build(thing: contested_thing)
+        checkout.should_not be_valid
+      end
     end
   end
 

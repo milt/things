@@ -4,6 +4,7 @@ class Checkout < ActiveRecord::Base
   has_many :allocations, :dependent => :delete_all
   has_many :things, :through => :allocations
   validates :user, :presence => true
+  validates_associated :allocations
 
   # scope :reservation, where(picked_up: nil, returned: nil)
   # scope :active, where("picked_up IS NOT NULL AND returned IS NULL")
