@@ -1,10 +1,10 @@
 class Checkout < ActiveRecord::Base
-  attr_accessible :user, :user_id, :pickup_at, :return_at
+  attr_accessible :pickup_at, :return_at
   belongs_to :user
-  has_many :allocations, :dependent => :delete_all
+  has_many :allocations, inverse_of: :checkout, dependent: :delete_all
   has_many :things, :through => :allocations
   validates :user, :presence => true
-  validates_associated :allocations
+  validates_associated :allocations, message: "Could not validate allocations"
 
   # scope :reservation, where(picked_up: nil, returned: nil)
   # scope :active, where("picked_up IS NOT NULL AND returned IS NULL")
@@ -14,6 +14,11 @@ class Checkout < ActiveRecord::Base
   # scope :overdue, lambda { active.where("return_at < ?", DateTime.now) }
   # scope :late_return, lambda { returned.where("return_at < returned") }
 
+  def add_things(thing_ids)
+    Thing.find(thing_ids).each do |thing|
+      allocations.build(thing: thing)
+    end
+  end
 
   def status
     checkout_attrs = self.attributes

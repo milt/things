@@ -1,10 +1,30 @@
-= form_for @checkout do |f|
-  - if @checkout.errors.any?
+- if @checkout.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@checkout.errors.count, "error")} prohibited this checkout from being saved:"
+    %ul
+      - @checkout.errors.full_messages.each do |msg|
+        %li= msg
+- @checkout.allocations.each do |allocation|
+  - if allocation.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@checkout.errors.count, "error")} prohibited this checkout from being saved:"
+      %h2= "#{pluralize(@checkout.errors.count, "error")} prohibited this allocation from being saved:"
       %ul
-        - @checkout.errors.full_messages.each do |msg|
+        - allocation.errors.full_messages.each do |msg|
           %li= msg
 
-  .actions
-    = f.submit 'Save'
+= simple_form_for @checkout do |f|
+  = f.input :pickup_at
+  = f.input :return_at
+  %table.things_checkout
+    %tr
+      %th ID
+      %th Name
+      %th Description
+      %th
+    - @things.each do |thing|
+      %tr
+        %td= thing.id.to_s
+        %td= thing.name
+        %td= thing.description
+        %td= check_box_tag 'thing_ids[]', thing.id
+  = f.button :submit

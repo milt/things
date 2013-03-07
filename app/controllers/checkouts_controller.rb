@@ -26,6 +26,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new.json
   def new
     @checkout = Checkout.new
+    @things = Thing.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,6 +43,11 @@ class CheckoutsController < ApplicationController
   # POST /checkouts.json
   def create
     @checkout = Checkout.new(params[:checkout])
+    @checkout.user = current_user
+    @checkout.add_things(params[:thing_ids])
+    puts "attempting to make checkout with #{@checkout.inspect}"
+
+    @things = Thing.all
 
     respond_to do |format|
       if @checkout.save
