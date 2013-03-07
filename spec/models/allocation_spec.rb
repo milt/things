@@ -11,12 +11,24 @@ describe Allocation do
 
   context "when it is created" do
     it "is invalid if thing is reserved between pickup_at and return_at" do
-      pending
+      prior_checkout = FactoryGirl.create(:reservation_checkout)
+
+      thing = prior_checkout.things.first
+
+      checkout = FactoryGirl.build(:checkout, pickup_at: prior_checkout.pickup_at, return_at: prior_checkout.return_at)
+      allocation = checkout.allocations.build(thing: thing)
+      allocation.should_not be_valid
     end
   end
   context "when it is picked up" do
     it "is invalid if thing is overdue and has not been returned" do
-      pending
+      prior_checkout = FactoryGirl.create(:overdue_checkout)
+
+      thing = prior_checkout.things.first
+
+      checkout = FactoryGirl.build(:checkout)
+      allocation = checkout.allocations.build(thing: thing)
+      allocation.should_not be_valid
     end
   end
 end
