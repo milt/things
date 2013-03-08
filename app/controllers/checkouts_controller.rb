@@ -25,8 +25,10 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
+    @typeahead_names = Thing.pluck(:name)
     @checkout = Checkout.new
-    @things = Thing.all
+    @q = Thing.search(params[:q])
+    @things = @q.result(:distinct => true).page params[:page]
 
     respond_to do |format|
       format.html # new.html.erb

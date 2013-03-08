@@ -17,4 +17,17 @@
 //= require bootstrap-datetimepicker
 
 $(document).ready(function(){
+
+  var embedsearchform=$("#embed-things-search");
+  var embedsearchbox=$(".embed-search#q_name_cont");
+
+  embedsearchform.ready(function() {
+      $.get($(this).attr("action"), $(this).serialize(), null, "script");
+      return false;
+  });
+
+  embedsearchbox.bind("keyup", function() {
+      $.get($(this).attr("action"), $(this).serialize(), null, "script");
+      return false;
+  });
 });
