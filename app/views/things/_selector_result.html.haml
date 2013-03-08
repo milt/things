@@ -7,7 +7,7 @@
 
 
   - @things.each do |thing|
-    %tr
+    %tr.thing-selector-row{id: "#{thing.id}"}
       %td= thing.id.to_s
       %td= thing.name
       %td= thing.description

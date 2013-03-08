@@ -49,7 +49,8 @@ class CheckoutsController < ApplicationController
     @checkout.user = current_user
     @checkout.add_things(params[:thing_ids])
 
-    @things = Thing.all
+    @q = Thing.search(params[:q])
+    @things = @q.result(:distinct => true).page(params[:page]).per(5)
 
     respond_to do |format|
       if @checkout.save

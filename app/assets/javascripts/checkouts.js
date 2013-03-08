@@ -17,7 +17,6 @@ $(document).ready(function(){
     $.get($(this).attr("action"), $(this).serialize(), null, "script");
     return false;
   });
-
-  //$("#things-selector-form").ready(liveSearch);
+  
   $("#q_name_cont").bind("keyup", liveSearch);
 });
