@@ -27,6 +27,7 @@ gem 'rails3-jquery-autocomplete'
 gem 'active_attr'
 gem 'simple_form'
 
+gem "bootstrap-datetimepicker-rails"
 gem "bullet", :group => "development"
 
 group :test do

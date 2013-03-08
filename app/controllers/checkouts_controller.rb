@@ -45,7 +45,6 @@ class CheckoutsController < ApplicationController
     @checkout = Checkout.new(params[:checkout])
     @checkout.user = current_user
     @checkout.add_things(params[:thing_ids])
-    puts "attempting to make checkout with #{@checkout.inspect}"
 
     @things = Thing.all
 
