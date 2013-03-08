@@ -1,2 +1,2 @@
-= search_form_for(@q, :builder => SimpleForm::FormBuilder, :remote => true,:update => 'results', :url => things_path, :html => {:method => :get, :class => 'navbar-search pull-right', :id => 'things-search', :autocomplete => :off }) do |f|
+= search_form_for(@q, :builder => SimpleForm::FormBuilder, :remote => true, :update => 'results', :url => things_path, :html => {:method => :get, :class => 'navbar-search pull-right', :id => 'things-search', :autocomplete => :off }) do |f|
   = f.input_field :name_cont, class: 'search-query', placeholder: 'Name Contains...', data: {provide: 'typeahead', source: @typeahead_names}

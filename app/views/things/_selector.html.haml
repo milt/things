@@ -1,0 +1,5 @@
+= search_form_for(@q, :builder => SimpleForm::FormBuilder, :remote => true,:update => 'selector_results', :url => things_path, :html => {:method => :get, :class => 'form-search', :id => 'things-selector-form', :autocomplete => :off }) do |f|
+  = f.input_field :name_cont, class: 'search-query things-selector-input', placeholder: 'Name Contains...', data: {provide: 'typeahead', source: @typeahead_names}
+
+  .table-hover#selector_results
+  #no_results

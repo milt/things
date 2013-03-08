@@ -1,0 +1,16 @@
+%table.table
+  %tr
+    %th ID
+    %th Name
+    %th Description
+    %th
+
+
+  - @things.each do |thing|
+    %tr
+      %td= thing.id.to_s
+      %td= thing.name
+      %td= thing.description
+      %td
+#paginator
+  = paginate @things, :remote => true

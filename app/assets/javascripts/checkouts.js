@@ -18,6 +18,6 @@ $(document).ready(function(){
     return false;
   });
 
-  $("#embed-things-search").ready(liveSearch);
-  $(".embed-search#q_name_cont").bind("keyup", liveSearch);
+  //$("#things-selector-form").ready(liveSearch);
+  $("#q_name_cont").bind("keyup", liveSearch);
 });

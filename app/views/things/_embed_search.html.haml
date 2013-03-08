@@ -1,5 +1,0 @@
-= search_form_for(@q, :builder => SimpleForm::FormBuilder, :remote => true,:update => 'results', :url => things_path, :html => {:method => :get, :class => 'form-search', :id => 'embed-things-search', :autocomplete => :off }) do |f|
-  = f.input_field :name_cont, class: 'search-query embed-search', placeholder: 'Name Contains...', data: {provide: 'typeahead', source: @typeahead_names}
-
-  #results
-  #no_result
