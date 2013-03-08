@@ -1,15 +1,11 @@
 $(document).ready(function(){
 
-  var searchform=$("#things-search");
-  var searchbox=$("#q_name_cont");
-
-  searchform.ready(function() {
-      $.get($(this).attr("action"), $(this).serialize(), null, "script");
-      return false;
+  var liveSearch = (function() {
+    $.get($(this).attr("action"), $(this).serialize(), null, "script");
+    return false;
   });
 
-  searchbox.bind("keyup", function() {
-      $.get($(this).attr("action"), $(this).serialize(), null, "script");
-      return false;
-  });
+  $("#things-search").ready(liveSearch);
+  $("#q_name_cont").bind("keyup", liveSearch);
+
 });
