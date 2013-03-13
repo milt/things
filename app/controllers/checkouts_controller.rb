@@ -27,7 +27,25 @@ class CheckoutsController < ApplicationController
   def new
     @typeahead_names = Thing.pluck(:name)
     @checkout = Checkout.new
+
+    unless session[:selected_thing_ids]
+      session[:selected_thing_ids] = []
+    end
+
+    if params[:add_thing_id]
+      session[:selected_thing_ids] << params[:add_thing_id]
+    end
+
+    if params[:remove_thing_id]
+      session[:selected_thing_ids].reject! {|e| e == params[:remove_thing_id]}
+    end
+
+    if session[:selected_thing_ids]
+      @selected_things = Thing.find(session[:selected_thing_ids])
+    end
+
     @q = Thing.search(params[:q])
+    result = @q.result(distinct: true)
     @things = @q.result(:distinct => true).page(params[:page]).per(5)
 
     respond_to do |format|

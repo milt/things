@@ -23,4 +23,5 @@
     = f.text_field :return_at, value: (DateTime.now + 1.day).strftime("%m/%d/%Y %I:%M:%S %p"), data: {format: 'MM/dd/yyyy HH:mm:ss PP'}
     %span.add-on
       %i{ data: {time: {icon: 'icon-time'}, date: {icon: 'icon-calendar' } } }
+  #selected_things
   = f.button :submit

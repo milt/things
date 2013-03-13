@@ -1,0 +1,15 @@
+%table.table
+  %tr
+    %th ID
+    %th Name
+    %th Description
+    %th
+
+
+  - @selected_things.each do |thing|
+    %tr
+      %td= thing.id.to_s
+      %td= thing.name
+      %td= thing.description
+      %td
+        = link_to "Remove", {remove_thing_id: thing.id}, remote: true

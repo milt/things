@@ -1,11 +1,10 @@
 class Cart
   include ActiveAttr::Model
 
-  attr_accessible :user, :pickup_at, :return_at
+  attr_accessible :user, :checkout
 
   attribute :user
-  attribute :pickup_at
-  attribute :return_at
+  attribute :checkout
   attribute :things
 
 
