@@ -17,3 +17,5 @@
 # Ignore rvmrc
 .rvmrc
 
+# Ignore the damn DS store files
+.DS_Store
