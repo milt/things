@@ -45,7 +45,7 @@ class CheckoutsController < ApplicationController
     end
 
     @q = Thing.search(params[:q])
-    @things = @q.result(:distinct => true).except(@selected_thing_ids).page(params[:page]).per(5)
+    @things = @q.result(:distinct => true).where{ id.not_in my{@selected_things}.map(&:id) }.page(params[:page]).per(5)
 
     respond_to do |format|
       format.html # new.html.erb
