@@ -15,12 +15,12 @@
 = simple_form_for @checkout do |f|
   .input-append#checkout-pickup-at
     = f.label :pickup_at
-    = f.text_field :pickup_at, value: DateTime.now.strftime("%m/%d/%Y %I:%M:%S %p"), data: {format: 'MM/dd/yyyy HH:mm:ss PP'}
+    = f.text_field :pickup_at, value: DateTime.now.strftime("%Y-%m-%d %I:%M:%S %p"), data: {format: 'yyyy-MM-dd HH:mm:ss PP'}
     %span.add-on
       %i{ data: {time: {icon: 'icon-time'}, date: {icon: 'icon-calendar' } } }
   .input-append#checkout-return-at
     = f.label :return_at
-    = f.text_field :return_at, value: (DateTime.now + 1.day).strftime("%m/%d/%Y %I:%M:%S %p"), data: {format: 'MM/dd/yyyy HH:mm:ss PP'}
+    = f.text_field :return_at, value: (DateTime.now + 1.day).strftime("%Y-%m-%d %I:%M:%S %p"), data: {format: 'yyyy-MM-dd HH:mm:ss PP'}
     %span.add-on
       %i{ data: {time: {icon: 'icon-time'}, date: {icon: 'icon-calendar' } } }
   #selected_things
