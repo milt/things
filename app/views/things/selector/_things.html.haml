@@ -7,6 +7,7 @@
 
 
   - @selected_things.each do |thing|
+    = hidden_field_tag 'thing_ids[]', thing.id
     %tr
       %td= thing.id.to_s
       %td= thing.name

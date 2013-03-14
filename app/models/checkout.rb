@@ -3,7 +3,7 @@ class Checkout < ActiveRecord::Base
   belongs_to :user
   has_many :allocations, inverse_of: :checkout, dependent: :delete_all
   has_many :things, :through => :allocations
-  validates :user, :presence => true
+  validates :user, :pickup_at, :return_at, :presence => true
   validates_associated :allocations, message: "Could not validate allocations"
 
   # scope :reservation, where(picked_up: nil, returned: nil)
@@ -14,8 +14,14 @@ class Checkout < ActiveRecord::Base
   # scope :overdue, lambda { active.where("return_at < ?", DateTime.now) }
   # scope :late_return, lambda { returned.where("return_at < returned") }
 
-  def add_things(thing_ids)
+  def add_things_by_ids(thing_ids)
     Thing.find(thing_ids).each do |thing|
+      allocations.build(thing: thing)
+    end
+  end
+
+  def add_things(things)
+    things.each do |thing|
       allocations.build(thing: thing)
     end
   end
