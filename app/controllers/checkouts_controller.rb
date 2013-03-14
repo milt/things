@@ -45,8 +45,7 @@ class CheckoutsController < ApplicationController
     end
 
     @q = Thing.search(params[:q])
-    result = @q.result(distinct: true)
-    @things = @q.result(:distinct => true).page(params[:page]).per(5)
+    @things = @q.result(:distinct => true).except(@selected_thing_ids).page(params[:page]).per(5)
 
     respond_to do |format|
       format.html # new.html.erb
