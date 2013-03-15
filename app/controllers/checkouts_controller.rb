@@ -62,6 +62,7 @@ class CheckoutsController < ApplicationController
   # POST /checkouts
   # POST /checkouts.json
   def create
+    @typeahead_names = Thing.pluck(:name)
     @checkout = Checkout.new(params[:checkout])
     @checkout.user = current_user
 
@@ -69,14 +70,10 @@ class CheckoutsController < ApplicationController
       @selected_things = Thing.find(session[:selected_thing_ids])
     end
 
-    #@checkout.add_things(@selected_things)
-
     @q = Thing.search(params[:q])
     @things = @q.result(:distinct => true).where{ id.not_in my{@selected_things}.map(&:id) }.page(params[:page]).per(5)
 
     @checkout.add_things_by_ids(params[:thing_ids])
-    # @q = Thing.search(params[:q])
-    # @things = @q.result(:distinct => true).page(params[:page]).per(5)
 
     respond_to do |format|
       if @checkout.save
