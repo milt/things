@@ -1,5 +1,7 @@
 class CheckoutsController < ApplicationController
   load_and_authorize_resource
+  before_filter :thing_selector, only: [:new,:create]
+  
   # GET /checkouts
   # GET /checkouts.json
   def index
@@ -25,27 +27,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
-    @typeahead_names = Thing.pluck(:name)
     @checkout = Checkout.new
-
-    unless session[:selected_thing_ids]
-      session[:selected_thing_ids] = []
-    end
-
-    if params[:add_thing_id]
-      session[:selected_thing_ids] << params[:add_thing_id]
-    end
-
-    if params[:remove_thing_id]
-      session[:selected_thing_ids].reject! {|e| e == params[:remove_thing_id]}
-    end
-
-    if session[:selected_thing_ids]
-      @selected_things = Thing.find(session[:selected_thing_ids])
-    end
-
-    @q = Thing.search(params[:q])
-    @things = @q.result(:distinct => true).where{ id.not_in my{@selected_things}.map(&:id) }.page(params[:page]).per(5)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -62,17 +44,8 @@ class CheckoutsController < ApplicationController
   # POST /checkouts
   # POST /checkouts.json
   def create
-    @typeahead_names = Thing.pluck(:name)
     @checkout = Checkout.new(params[:checkout])
     @checkout.user = current_user
-
-    if session[:selected_thing_ids]
-      @selected_things = Thing.find(session[:selected_thing_ids])
-    end
-
-    @q = Thing.search(params[:q])
-    @things = @q.result(:distinct => true).where{ id.not_in my{@selected_things}.map(&:id) }.page(params[:page]).per(5)
-
     @checkout.add_things_by_ids(params[:thing_ids])
 
     respond_to do |format|
@@ -112,5 +85,30 @@ class CheckoutsController < ApplicationController
       format.html { redirect_to checkouts_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def thing_selector
+    @typeahead_names = Thing.pluck(:name)
+
+    unless session[:selected_thing_ids]
+      session[:selected_thing_ids] = []
+    end
+
+    if params[:add_thing_id]
+      session[:selected_thing_ids] << params[:add_thing_id]
+    end
+
+    if params[:remove_thing_id]
+      session[:selected_thing_ids].reject! {|e| e == params[:remove_thing_id]}
+    end
+
+    if session[:selected_thing_ids]
+      @selected_things = Thing.find(session[:selected_thing_ids])
+    end
+
+    @q = Thing.search(params[:q])
+    @things = @q.result(:distinct => true).where{ id.not_in my{@selected_things}.map(&:id) }.page(params[:page]).per(5)
   end
 end
