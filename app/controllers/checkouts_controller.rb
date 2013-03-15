@@ -1,6 +1,6 @@
 class CheckoutsController < ApplicationController
   load_and_authorize_resource
-  before_filter :thing_selector, only: [:new,:create]
+  before_filter :thing_selector, only: :new
   
   # GET /checkouts
   # GET /checkouts.json
@@ -50,12 +50,12 @@ class CheckoutsController < ApplicationController
 
     respond_to do |format|
       if @checkout.save
+        session[:selected_thing_ids] = nil
         format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout, status: :created, location: @checkout }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to new_checkout_path, alert: "Checkout could not be saved!" }
         format.json { render json: @checkout.errors, status: :unprocessable_entity }
-        format.js   { render action: "new" }
       end
     end
   end

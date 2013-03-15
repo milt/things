@@ -1,17 +1,3 @@
-- if @checkout.errors.any?
-  #error_explanation
-    %h2= "#{pluralize(@checkout.errors.count, "error")} prohibited this checkout from being saved:"
-    %ul
-      - @checkout.errors.full_messages.each do |msg|
-        %li= msg
-- @checkout.allocations.each do |allocation|
-  - if allocation.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@checkout.errors.count, "error")} prohibited this allocation from being saved:"
-      %ul
-        - allocation.errors.full_messages.each do |msg|
-          %li= msg
-
 = simple_form_for @checkout do |f|
   .input-append#checkout-pickup-at
     = f.label :pickup_at
