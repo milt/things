@@ -25,7 +25,9 @@ gem 'faker'
 gem 'pickle'
 gem 'rails3-jquery-autocomplete'
 gem 'active_attr'
-gem 'simple_form'
+gem 'simple_form', '2.0.4'
+gem 'client_side_validations', '3.2.1'
+gem 'client_side_validations-simple_form', '2.0.1'
 
 gem "bootstrap-datetimepicker-rails"
 gem "bullet", :group => "development"

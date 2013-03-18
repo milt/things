@@ -15,6 +15,8 @@
 //= require_tree .
 //= require twitter/bootstrap
 //= require bootstrap-datetimepicker
+//= require rails.validations
+//= require rails.validations.simple_form
 
 $(document).ready(function(){
 
