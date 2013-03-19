@@ -3,7 +3,7 @@ class Checkout < ActiveRecord::Base
   belongs_to :user
   has_many :allocations, inverse_of: :checkout, dependent: :delete_all
   has_many :things, :through => :allocations
-  validates :user, :pickup_at, :return_at, :presence => true
+  validates :user, :pickup_at, :return_at, :allocations, :presence => true
   validates_associated :allocations, message: "Could not validate allocations"
 
   # scope :reservation, where(picked_up: nil, returned: nil)

@@ -27,6 +27,12 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
+    if params[:reservation] == "true"
+      @reservation = true
+    else
+      @reservation = false
+    end
+
     @checkout = Checkout.new
 
     respond_to do |format|
@@ -45,8 +51,15 @@ class CheckoutsController < ApplicationController
   # POST /checkouts.json
   def create
     @checkout = Checkout.new(params[:checkout])
+
     @checkout.user = current_user
-    @checkout.add_things_by_ids(params[:thing_ids])
+
+    @checkout.add_things_by_ids(params[:thing_ids]) if params[:thing_ids]
+
+    if params[:pickup_at].nil?
+      @checkout.pickup_at = DateTime.now
+      @checkout.allocations.each {|a| a.picked_up = @checkout.pickup_at}
+    end
 
     respond_to do |format|
       if @checkout.save

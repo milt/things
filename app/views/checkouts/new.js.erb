@@ -2,3 +2,4 @@ $("#no_results").html("<% if @q.result.count < 1 %><div class='alert'>No things 
 $("#selector_results").html("<%= escape_javascript(render 'things/selector/result') if @q.result.count >= 1 %>");
 $("#paginator").html("<%= escape_javascript(paginate(@things, :remote => true).to_s) %>");
 $("#selected_things").html("<%= escape_javascript(render 'things/selector/things') unless @selected_things.empty? %>");
+$("#pickup-at-field").html("<%= escape_javascript(render :text => '') unless @reservation == true %>")

@@ -1,4 +1,12 @@
-%h1 New checkout
+%h1 New
+
+.btn-group
+  - if @reservation == true
+    = link_to "Checkout", {reservation: false}, :class => 'btn btn-large'
+    %button.btn.btn-large.disabled Reservation
+  - else
+    %button.btn.btn-large.disabled Checkout
+    = link_to "Reservation", {reservation: true}, :class => 'btn btn-large'
 = render 'form'
 .well
   = render 'things/selector/form'

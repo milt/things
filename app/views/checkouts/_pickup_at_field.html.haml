@@ -1,0 +1,5 @@
+.input-append#checkout-pickup-at
+  = f.label :pickup_at
+  = f.text_field :pickup_at, value: DateTime.now.strftime("%Y-%m-%d %I:%M:%S %p"), data: {format: 'yyyy-MM-dd HH:mm:ss PP'}
+  %span.add-on
+    %i{ data: {time: {icon: 'icon-time'}, date: {icon: 'icon-calendar' } } }
