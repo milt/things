@@ -2,7 +2,8 @@
 
 .btn-group
   - if @reservation == true
-    = link_to "Checkout", {reservation: false}, :class => 'btn btn-large'
+    - if can? :create, Checkout
+      = link_to "Checkout", {reservation: false}, :class => 'btn btn-large'
     %button.btn.btn-large.disabled Reservation
   - else
     %button.btn.btn-large.disabled Checkout

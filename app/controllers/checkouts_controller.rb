@@ -30,7 +30,11 @@ class CheckoutsController < ApplicationController
     if params[:reservation] == "true"
       @reservation = true
     else
-      @reservation = false
+      if can? :create, Checkout
+        @reservation = false
+      else
+        @reservation = true
+      end
     end
 
     @checkout = Checkout.new
