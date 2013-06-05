@@ -1,7 +1,7 @@
 class Cart
   include ActiveAttr::Model
 
-  attr_accessible :user, :checkout
+  #attr_accessible :user, :checkout
 
   attribute :user
   attribute :checkout

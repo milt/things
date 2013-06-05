@@ -2,7 +2,7 @@ class Allocation < ActiveRecord::Base
   belongs_to :thing
   belongs_to :checkout, inverse_of: :allocations
   has_one :user, through: :checkout
-  attr_accessible :picked_up, :returned, :thing
+  #attr_accessible :picked_up, :returned, :thing
   validates :thing, :checkout, presence: true
   delegate :pickup_at, :return_at, to: :checkout
   validate :cannot_reserve_if_conflict, unless: Proc.new {|a| a.thing.blank? || a.checkout.blank? }

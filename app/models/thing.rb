@@ -1,5 +1,5 @@
 class Thing < ActiveRecord::Base
-  attr_accessible :description, :name
+  #attr_accessible :description, :name
   resourcify
   validates :name, :description, :presence => true
   has_many :allocations

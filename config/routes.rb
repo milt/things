@@ -9,9 +9,10 @@ Things::Application.routes.draw do
   root :to => "home#index"
   get "home/index"
 
-  match 'users' => 'users#index'
-  match 'users/index' => 'users#index'
-  match 'things/:id/delete' => 'things#destroy', as: :delete_thing
+  #TODO: fix these for Rails 4
+  #match 'users' => 'users#index', via: [:get, :post]
+  #match 'users/index' => 'users#index', via: [:get, :post]
+  #match 'things/:id/delete' => 'things#destroy', as: :delete_thing
 
   #get 'things/autocomplete_thing_name'
   # The priority is based upon order of creation:

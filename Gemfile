@@ -22,7 +22,8 @@ gem "ransack", :git => "https://github.com/ernie/ransack", :branch => 'rails-4'
 #gem 'polyamorous'
 #gem 'squeel'
 gem 'rolify'
-gem 'haml-rails'
+#gem 'haml-rails'
+gem "haml", :git => "git://github.com/haml/haml.git"
 gem 'faker'
 gem 'pickle'
 #gem 'rails4-jquery-autocomplete'
@@ -58,7 +59,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', github: 'rails/jquery-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

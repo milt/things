@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/haml/haml.git
+  revision: 7884fae7af29e6cf7b862b270501685ff39ce137
+  specs:
+    haml (4.1.0.alpha.1)
+      tilt
+
+GIT
   remote: git://github.com/plataformatec/devise.git
   revision: 6b5988d756d780903bf8c9ccb3e2b3b724ccebe8
   branch: rails4
@@ -24,6 +31,14 @@ GIT
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0.beta, < 5.0)
+
+GIT
+  remote: git://github.com/rails/jquery-rails.git
+  revision: 08a6fa0fa3d377163c978ecd4460e4743207e463
+  specs:
+    jquery-rails (3.0.0)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
 
 GIT
   remote: git://github.com/rails/sass-rails.git
@@ -148,18 +163,8 @@ GEM
       sass-rails (>= 3.1.1)
     gherkin (2.11.6)
       json (>= 1.7.6)
-    haml (4.0.0)
-      tilt
-    haml-rails (0.4)
-      actionpack (>= 3.1, < 4.1)
-      activesupport (>= 3.1, < 4.1)
-      haml (>= 3.1, < 4.1)
-      railties (>= 3.1, < 4.1)
     hike (1.2.3)
     i18n (0.6.4)
-    jquery-rails (2.2.1)
-      railties (>= 3.0, < 5.0)
-      thor (>= 0.14, < 2.0)
     jquery-ui-rails (4.0.3)
       jquery-rails
       railties (>= 3.1.0)
@@ -285,8 +290,8 @@ DEPENDENCIES
   factory_girl_rails
   faker
   font-awesome-sass-rails
-  haml-rails
-  jquery-rails
+  haml!
+  jquery-rails!
   kaminari
   pg
   pickle
