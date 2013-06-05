@@ -46,7 +46,7 @@ class ThingsController < ApplicationController
   # POST /things
   # POST /things.json
   def create
-    @thing = Thing.new(params[:thing])
+    @thing = Thing.new(thing_params)
 
     respond_to do |format|
       if @thing.save
@@ -65,7 +65,7 @@ class ThingsController < ApplicationController
     @thing = Thing.find(params[:id])
 
     respond_to do |format|
-      if @thing.update_attributes(params[:thing])
+      if @thing.update_attributes(thing_params)
         format.html { redirect_to @thing, notice: 'Thing was successfully updated.' }
         format.json { head :no_content }
       else
@@ -85,5 +85,11 @@ class ThingsController < ApplicationController
       format.html { redirect_to things_url, notice: 'Thing was successfully deleted.' }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def thing_params
+    params.require(:thing).permit(:name, :description)
   end
 end

@@ -13,7 +13,7 @@ gem 'cancan'
 
 gem 'builder'
 gem 'coderay'
-gem 'kaminari'
+gem 'kaminari', github: 'amatsuda/kaminari'
 gem 'pg'
 gem 'pry-rails'
 gem 'rails_admin', :git => "https://github.com/sferik/rails_admin", :branch => 'rails-4'

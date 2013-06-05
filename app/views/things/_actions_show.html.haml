@@ -3,4 +3,4 @@
   - if can? :update, thing
     %a.btn{href: edit_thing_path(thing)} Edit
   - if can? :destroy, thing
-    %a.btn{href: delete_thing_path(thing), method: :delete, data: { confirm: 'Are you sure?' }} Destroy
+    %a.btn{href: thing_path(thing), data: {method: :delete, confirm: 'Are you sure?' } } Destroy

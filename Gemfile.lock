@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/amatsuda/kaminari.git
+  revision: 7d209354119a8d5d273def3a7f5c6d011c4baa0a
+  specs:
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+
+GIT
   remote: git://github.com/haml/haml.git
   revision: 7884fae7af29e6cf7b862b270501685ff39ce137
   specs:
@@ -169,9 +177,6 @@ GEM
       jquery-rails
       railties (>= 3.1.0)
     json (1.8.0)
-    kaminari (0.14.1)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
     libv8 (3.11.8.13)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -297,7 +302,7 @@ DEPENDENCIES
   font-awesome-sass-rails
   haml!
   jquery-rails!
-  kaminari
+  kaminari!
   pg
   pickle
   pry-rails

@@ -1,7 +1,6 @@
 Things::Application.routes.draw do
   resources :things, :checkouts
 
-
   devise_for :users
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
@@ -12,8 +11,8 @@ Things::Application.routes.draw do
   #TODO: fix these for Rails 4
   #match 'users' => 'users#index', via: [:get, :post]
   #match 'users/index' => 'users#index', via: [:get, :post]
-  #match 'things/:id/delete' => 'things#destroy', as: :delete_thing
-
+  #match 'things/:id/delete' => 'things#destroy', as: :delete_thing, via: :post
+  #delete '/things/:id(.:format)'
   #get 'things/autocomplete_thing_name'
   # The priority is based upon order of creation:
   # first created -> highest priority.
