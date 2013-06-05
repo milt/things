@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'bundler'
-gem 'rails', '3.2.12'
+gem 'rails', '4.0.0.rc1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,23 +11,25 @@ gem 'sqlite3'
 gem 'cancan'
 #gem 'bootstrap-sass', '2.3.0.0'
 
-gem 'builder', '3.0.4'
-gem 'coderay', '1.0.8'
-gem 'kaminari', '0.14.1'
-gem 'pg', '0.14.1'
-gem 'pry-rails', '0.2.2'
-gem 'rails_admin', '0.4.5'
-gem 'ransack', '0.7.2'
-gem 'squeel', '1.0.16'
+gem 'builder'
+gem 'coderay'
+gem 'kaminari'
+gem 'pg'
+gem 'pry-rails'
+gem 'rails_admin', :git => "https://github.com/sferik/rails_admin", :branch => 'rails-4'
+gem 'font-awesome-sass-rails'
+gem "ransack", :git => "https://github.com/ernie/ransack", :branch => 'rails-4'
+#gem 'polyamorous'
+#gem 'squeel'
 gem 'rolify'
 gem 'haml-rails'
 gem 'faker'
 gem 'pickle'
-gem 'rails3-jquery-autocomplete'
+#gem 'rails4-jquery-autocomplete'
 gem 'active_attr'
-gem 'simple_form', '2.0.4'
-gem 'client_side_validations', '3.2.1'
-gem 'client_side_validations-simple_form', '2.0.1'
+gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
+#gem 'client_side_validations'
+#gem 'client_side_validations-simple_form', :git => 'git://github.com/dockyard/client_side_validations-simple_form'
 
 gem "bootstrap-datetimepicker-rails"
 gem "bullet", :group => "development"
@@ -40,15 +42,15 @@ end
 
 group :test, :development do
   gem 'factory_girl_rails'
-  gem 'rspec-rails', '2.12.2'
+  gem 'rspec-rails'
 end
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  #gem 'sass-rails',   '~> 3.2.6'
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'bootstrap-sass-rails', '2.3.0.0'
+  gem 'sass-rails', github: 'rails/sass-rails'
+  gem 'coffee-rails', github: 'rails/coffee-rails'
+  gem 'bootstrap-sass'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', :platforms => :ruby
@@ -73,5 +75,5 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
-
-gem "devise"
+gem 'devise', :git => 'git://github.com/plataformatec/devise.git', :branch => "rails4"
+#gem 'devise', '3.0.0'
