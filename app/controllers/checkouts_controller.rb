@@ -129,7 +129,12 @@ class CheckoutsController < ApplicationController
     end
 
     if session[:selected_thing_ids]
-      @selected_things = Thing.find(session[:selected_thing_ids])
+      begin
+        @selected_things = Thing.find(session[:selected_thing_ids])
+      rescue
+        session[:selected_thing_ids] = session[:selected_thing_ids] & Thing.all.map(&:id)
+        @selected_things = Thing.find(session[:selected_thing_ids])
+      end
     end
 
     @q = Thing.where.not( id: @selected_things.map(&:id) ).search(params[:q])
