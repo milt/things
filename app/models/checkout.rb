@@ -1,10 +1,10 @@
 class Checkout < ActiveRecord::Base
-  #attr_accessible :pickup_at, :return_at
   belongs_to :user
   has_many :allocations, inverse_of: :checkout, dependent: :delete_all
   has_many :things, :through => :allocations
   validates :user, :pickup_at, :return_at, :allocations, :presence => true
   validates_associated :allocations, message: "Could not validate allocations"
+  # scope :by_reservation_time, ->(b,e) { where("pickup_at <= ? AND return_at >= ?", e, b ) }
 
   # scope :reservation, where(picked_up: nil, returned: nil)
   # scope :active, where("picked_up IS NOT NULL AND returned IS NULL")
@@ -25,6 +25,10 @@ class Checkout < ActiveRecord::Base
       allocations.build(thing: thing)
     end
   end
+
+  # def reserve_range
+  #   pickup_at..return_at
+  # end
 
   def status
     checkout_attrs = self.attributes

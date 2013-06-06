@@ -61,21 +61,11 @@ class Allocation < ActiveRecord::Base
   end
 
   def self.find_for_range(b,e)
-    includes{checkout}.where{
-                            ((checkout.pickup_at < b) & (checkout.return_at > e)) |
-                            ((checkout.pickup_at >= b) & (checkout.return_at <= e)) |
-                            ((checkout.pickup_at < b) & (checkout.return_at <= e) & (checkout.return_at >= b)) |
-                            ((checkout.pickup_at >= b) & (checkout.pickup_at <= e) & (checkout.return_at > e)) |
-                            (
-                              ((checkout.pickup_at < b) & (checkout.return_at < b)) &
-                              ((picked_up.not_eq nil) & (returned.eq nil))
-                            )
-                          }
+    joins(:checkout).where("pickup_at <= ? AND return_at >= ?", e, b)
   end
 
   def find_conflicts
     conflicts = thing.allocations.find_for_range(pickup_at,return_at)
-    conflicts_hash = {}
 
     if conflicts.empty?
       return false

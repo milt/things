@@ -60,16 +60,18 @@ class CheckoutsController < ApplicationController
       @reservation = false
     end
 
-    @checkout = Checkout.new(params[:checkout])
-
-    @checkout.user = current_user
-
-    @checkout.add_things_by_ids(params[:thing_ids]) if params[:thing_ids]
-
+    @checkout = Checkout.new(checkout_params)
+    
     if params[:pickup_at].nil?
       @checkout.pickup_at = DateTime.now
       @checkout.allocations.each {|a| a.picked_up = @checkout.pickup_at}
     end
+
+
+
+    @checkout.user = current_user
+
+    @checkout.add_things_by_ids(params[:thing_ids]) if params[:thing_ids]
 
     respond_to do |format|
       if @checkout.save
@@ -77,7 +79,7 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout, status: :created, location: @checkout }
       else
-        format.html { redirect_to new_checkout_path(reservation: @reservation), alert: "Checkout could not be saved!" }
+        format.html { redirect_to new_checkout_path(reservation: @reservation), alert: "Checkout could not be saved because: #{@checkout.errors.full_messages}" }
         format.json { render json: @checkout.errors, status: :unprocessable_entity }
       end
     end
@@ -89,7 +91,7 @@ class CheckoutsController < ApplicationController
     @checkout = Checkout.find(params[:id])
 
     respond_to do |format|
-      if @checkout.update_attributes(params[:checkout])
+      if @checkout.update_attributes(checkout_params)
         format.html { redirect_to @checkout, notice: 'Checkout was successfully updated.' }
         format.json { head :no_content }
       else
@@ -112,6 +114,10 @@ class CheckoutsController < ApplicationController
   end
 
   private
+
+  def checkout_params
+    params.require(:checkout).permit(:pickup_at, :return_at)
+  end
 
   def thing_selector
     @typeahead_names = Thing.pluck(:name)
