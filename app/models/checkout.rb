@@ -26,10 +26,6 @@ class Checkout < ActiveRecord::Base
     end
   end
 
-  # def reserve_range
-  #   pickup_at..return_at
-  # end
-
   def status
     checkout_attrs = self.attributes
     allocations_statuses = (allocations.map {|a| a.status(checkout_attrs)}).uniq
