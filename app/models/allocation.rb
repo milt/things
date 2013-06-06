@@ -42,10 +42,7 @@ class Allocation < ActiveRecord::Base
   end
 
   def self.overdue
-    includes{checkout}.where{
-      ((picked_up.not_eq nil) & (returned.eq nil)) &
-      (checkout.return_at < DateTime.now)
-    }
+    where( "picked_up != ? AND returned = ?", nil, nil ).joins(:checkout).where("return_at < ?", DateTime.now)
   end
 
   def self.returned

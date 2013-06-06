@@ -64,7 +64,6 @@ class CheckoutsController < ApplicationController
 
     if params[:pickup_at].nil?
       @checkout.pickup_at = DateTime.now
-      @checkout.allocations.each {|a| a.picked_up = @checkout.pickup_at}
     end
 
 
@@ -78,6 +77,7 @@ class CheckoutsController < ApplicationController
         @things_to_allocate = Thing.find((params[:thing_ids] & Thing.all.map(&:id)))
       end
       @checkout.add_things(@things_to_allocate)
+      @checkout.allocations.each {|a| a.picked_up = @checkout.pickup_at}
     end
 
     respond_to do |format|
