@@ -132,9 +132,7 @@ class CheckoutsController < ApplicationController
       @selected_things = Thing.find(session[:selected_thing_ids])
     end
 
-    @q = Thing.search(params[:q])
-    #@things = @q.result(:distinct => true).where{ id.not_in my{@selected_things}.map(&:id) }.page(params[:page]).per(5)
-    #no squeel support yet! so....
-    @things = @q.result(distinct: true).where( !@selected_things.map(&:id).include?(:id))
+    @q = Thing.where.not( id: @selected_things.map(&:id) ).search(params[:q])
+    @things = @q.result(distinct: true).page(params[:page]).per(5)
   end
 end
