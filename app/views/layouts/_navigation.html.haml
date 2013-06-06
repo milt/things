@@ -12,6 +12,12 @@
     - else
       %li
         %a{href: things_path} Things
+    - if current_page?(controller: 'checkouts')
+      %li.active
+        %a{href: checkouts_path} Checkouts
+    - else
+      %li
+        %a{href: checkouts_path} Checkouts
   - else
     %li
       %a.brand{href: root_path} Home
