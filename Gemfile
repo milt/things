@@ -21,13 +21,13 @@ gem 'font-awesome-sass-rails'
 gem "ransack", :git => "https://github.com/ernie/ransack", :branch => 'rails-4'
 #gem 'polyamorous'
 #gem 'squeel'
-gem 'rolify'
+gem 'rolify', github: 'EppO/rolify'
 #gem 'haml-rails'
 gem "haml", :git => "git://github.com/haml/haml.git"
 gem 'faker'
 gem 'pickle'
 #gem 'rails4-jquery-autocomplete'
-gem 'active_attr'
+#gem 'active_attr'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
 #gem 'client_side_validations'
 #gem 'client_side_validations-simple_form', :git => 'git://github.com/dockyard/client_side_validations-simple_form'
@@ -37,13 +37,13 @@ gem "bullet", :group => "development"
 
 group :test do
   gem 'cucumber-rails', :require => false
-  gem 'database_cleaner'
-  gem 'capybara'
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
+  gem 'capybara', github: 'jnicklas/capybara'
 end
 
 group :test, :development do
-  gem 'factory_girl_rails'
-  gem 'rspec-rails'
+  gem 'factory_girl_rails', github: 'thoughtbot/factory_girl_rails'
+  gem 'rspec-rails', github: 'rspec/rspec-rails'
 end
 
 # Gems used only for assets and not required
