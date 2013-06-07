@@ -49,7 +49,11 @@ class Allocation < ActiveRecord::Base
   end
 
   def find_conflicts
-    conflicts = thing.allocations.find_for_range(pickup_at,return_at).where.not(id: id) # and thing.allocations.overdue
+
+    conflicts = thing.allocations.find_for_range(pickup_at,return_at).where.not(id: id)
+    if pickup_at <= DateTime.now + 1.hour #TODO: make this a pref
+      conflicts += thing.allocations.overdue
+    end
 
     if conflicts.empty?
       return false

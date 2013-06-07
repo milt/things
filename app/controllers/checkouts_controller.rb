@@ -37,6 +37,18 @@ class CheckoutsController < ApplicationController
       end
     end
 
+    if params[:pickup_at]
+      @pickup_at = DateTime.parse(params[:pickup_at])
+    else
+      @pickup_at = DateTime.now
+    end
+
+    if params[:return_at]
+      @return_at = DateTime.parse(params[:return_at])
+    else
+      @return_at = DateTime.now + 1.day
+    end
+
     @checkout = Checkout.new
 
     respond_to do |format|
@@ -62,11 +74,9 @@ class CheckoutsController < ApplicationController
 
     @checkout = Checkout.new(checkout_params)
 
-    if params[:pickup_at].nil?
+    if @checkout.pickup_at.nil?
       @checkout.pickup_at = DateTime.now
     end
-
-
 
     @checkout.user = current_user
 
@@ -86,7 +96,7 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout, status: :created, location: @checkout }
       else
-        format.html { redirect_to new_checkout_path(reservation: @reservation), alert: "Checkout could not be saved because: #{@checkout.errors.full_messages} #{@checkout.allocations.first.errors.full_messages}" }
+        format.html { redirect_to new_checkout_path(reservation: @reservation, pickup_at: @checkout.pickup_at, return_at: @checkout.return_at), alert: "Checkout could not be saved because: #{@checkout.errors.full_messages} #{@checkout.allocations.first.errors.full_messages}" }
         format.json { render json: @checkout.errors, status: :unprocessable_entity }
       end
     end
