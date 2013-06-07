@@ -159,18 +159,18 @@ class CheckoutsController < ApplicationController
       when "checkout"
         @type = "checkout"
       else
-        if can? :create, Checkout
-          @type = "checkout"
-        else
-          @type = "reservation"
-        end
+        decide_type
       end
     else
-      if can? :create, Checkout
-        @type = "checkout"
-      else
-        @type = "reservation"
-      end
+      decide_type
+    end
+  end
+
+  def decide_type
+    if can? :create, Checkout
+      @type = "checkout"
+    else
+      @type = "reservation"
     end
   end
 end
