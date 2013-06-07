@@ -86,7 +86,7 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout, status: :created, location: @checkout }
       else
-        format.html { redirect_to new_checkout_path(reservation: @reservation), alert: "Checkout could not be saved because: #{@checkout.errors.full_messages}" }
+        format.html { redirect_to new_checkout_path(reservation: @reservation), alert: "Checkout could not be saved because: #{@checkout.errors.full_messages} #{@checkout.allocations.first.errors.full_messages}" }
         format.json { render json: @checkout.errors, status: :unprocessable_entity }
       end
     end

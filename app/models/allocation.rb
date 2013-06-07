@@ -21,40 +21,27 @@ class Allocation < ActiveRecord::Base
 
 
   def self.reserved
-    includes{checkout}.where{
-      ((picked_up.eq nil) & (returned.eq nil)) &
-      (checkout.pickup_at >= DateTime.now)
-    }
+    where( "picked_up IS NULL AND returned IS NULL" ).joins(:checkout).where("pickup_at >= ?", DateTime.now)
   end
 
   def self.late_pickup
-    includes{checkout}.where{
-      ((picked_up.eq nil) & (returned.eq nil)) &
-      (checkout.pickup_at < DateTime.now)
-    }
+    where( "picked_up IS NULL AND returned IS NULL" ).joins(:checkout).where("pickup_at < ?", DateTime.now)
   end
 
   def self.active
-    includes{checkout}.where{
-      ((picked_up.not_eq nil) & (returned.eq nil)) &
-      (checkout.return_at >= DateTime.now)
-    }
+    where( "picked_up IS NOT NULL AND returned IS NULL" ).joins(:checkout).where("return_at >= ?", DateTime.now)
   end
 
   def self.overdue
-    where( "picked_up != ? AND returned = ?", nil, nil ).joins(:checkout).where("return_at < ?", DateTime.now)
+    where( "picked_up IS NOT NULL AND returned IS NULL" ).joins(:checkout).where("return_at < ?", DateTime.now)
   end
 
   def self.returned
-    includes{checkout}.where{
-      ((picked_up.not_eq nil) & (returned.not_eq nil)) & (returned <= checkout.return_at)
-    }
+    where( "picked_up IS NOT NULL AND returned IS NOT NULL" ).joins(:checkout).where("return_at <= returned")
   end
 
   def self.late_return
-    includes{checkout}.where{
-      ((picked_up.not_eq nil) & (returned.not_eq nil)) & (returned > checkout.return_at)
-    }
+    where( "picked_up IS NOT NULL AND returned IS NOT NULL" ).joins(:checkout).where("return_at < returned")
   end
 
   def self.find_for_range(b,e)
@@ -62,7 +49,7 @@ class Allocation < ActiveRecord::Base
   end
 
   def find_conflicts
-    conflicts = thing.allocations.find_for_range(pickup_at,return_at)
+    conflicts = thing.allocations.find_for_range(pickup_at,return_at).where.not(id: id) # and thing.allocations.overdue
 
     if conflicts.empty?
       return false
