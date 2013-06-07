@@ -1,5 +1,5 @@
 = simple_form_for @checkout do |f|
-  - if @reservation == true
+  - if @type == "reservation"
     .input-append#checkout-pickup-at
       = f.label :pickup_at
       = f.text_field :pickup_at, value: @pickup_at.strftime("%Y-%m-%d %I:%M:%S %p"), data: {format: 'yyyy-MM-dd HH:mm:ss PP'}
@@ -10,13 +10,13 @@
       = f.text_field :return_at, value: @return_at.strftime("%Y-%m-%d %I:%M:%S %p"), data: {format: 'yyyy-MM-dd HH:mm:ss PP'}
       %span.add-on
         %i{ data: {time: {icon: 'icon-time'}, date: {icon: 'icon-calendar' } } }
-    = hidden_field_tag "reservation", "true"
+    = hidden_field_tag "type", "reservation"
   - else
     .input-append#checkout-return-at
       = f.label :return_at
       = f.text_field :return_at, value: @return_at.strftime("%Y-%m-%d %I:%M:%S %p"), data: {format: 'yyyy-MM-dd HH:mm:ss PP'}
       %span.add-on
         %i{ data: {time: {icon: 'icon-time'}, date: {icon: 'icon-calendar' } } }
-    = hidden_field_tag "reservation", "false"
+    = hidden_field_tag "type", "checkout"
   #selected_things
-  = f.button :submit
+  = f.button :submit, @type.capitalize

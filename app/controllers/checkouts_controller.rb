@@ -1,6 +1,7 @@
 class CheckoutsController < ApplicationController
   load_and_authorize_resource
   before_filter :thing_selector, only: :new
+  before_filter :type_check, only: [:new,:create]
   
   # GET /checkouts
   # GET /checkouts.json
@@ -27,16 +28,6 @@ class CheckoutsController < ApplicationController
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
-    if params[:reservation] == "true"
-      @reservation = true
-    else
-      if can? :create, Checkout
-        @reservation = false
-      else
-        @reservation = true
-      end
-    end
-
     if params[:pickup_at]
       @pickup_at = DateTime.parse(params[:pickup_at])
     else
@@ -66,16 +57,10 @@ class CheckoutsController < ApplicationController
   # POST /checkouts
   # POST /checkouts.json
   def create
-    if params[:reservation] == "true"
-      @reservation = true
-    else
-      @reservation = false
-    end
-
     @checkout = Checkout.new(checkout_params)
 
     if @checkout.pickup_at.nil?
-      @checkout.pickup_at = DateTime.now
+      @checkout.pickup_at = DateTime.now if can? :create, Checkout
     end
 
     @checkout.user = current_user
@@ -87,7 +72,9 @@ class CheckoutsController < ApplicationController
         @things_to_allocate = Thing.find((params[:thing_ids] & Thing.all.map(&:id)))
       end
       @checkout.add_things(@things_to_allocate)
-      @checkout.allocations.each {|a| a.picked_up = @checkout.pickup_at}
+      if @type == "checkout"
+        @checkout.allocations.each {|a| a.picked_up = @checkout.pickup_at}
+      end
     end
 
     respond_to do |format|
@@ -96,7 +83,7 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to @checkout, notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout, status: :created, location: @checkout }
       else
-        format.html { redirect_to new_checkout_path(reservation: @reservation, pickup_at: @checkout.pickup_at, return_at: @checkout.return_at), alert: "Checkout could not be saved because: #{@checkout.errors.full_messages} #{@checkout.allocations.first.errors.full_messages}" }
+        format.html { redirect_to new_checkout_path(type: @type, pickup_at: @checkout.pickup_at, return_at: @checkout.return_at), alert: "Checkout could not be saved because: #{@checkout.errors.full_messages} #{@checkout.allocations.first.errors.full_messages}" }
         format.json { render json: @checkout.errors, status: :unprocessable_entity }
       end
     end
@@ -162,5 +149,28 @@ class CheckoutsController < ApplicationController
 
     @q = Thing.where.not( id: @selected_things.map(&:id) ).search(params[:q])
     @things = @q.result(distinct: true).page(params[:page]).per(5)
+  end
+
+  def type_check
+    if params[:type]
+      case params[:type]
+      when "reservation"
+        @type = "reservation"
+      when "checkout"
+        @type = "checkout"
+      else
+        if can? :create, Checkout
+          @type = "checkout"
+        else
+          @type = "reservation"
+        end
+      end
+    else
+      if can? :create, Checkout
+        @type = "checkout"
+      else
+        @type = "reservation"
+      end
+    end
   end
 end

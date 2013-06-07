@@ -1,13 +1,13 @@
 %h1 New
 
 .btn-group
-  - if @reservation == true
+  - if @type == "reservation"
     - if can? :create, Checkout
-      = link_to "Checkout", {reservation: false}, :class => 'btn btn-large'
+      = link_to "Checkout", {type: "checkout"}, :class => 'btn btn-large'
     %button.btn.btn-large.disabled Reservation
   - else
     %button.btn.btn-large.disabled Checkout
-    = link_to "Reservation", {reservation: true}, :class => 'btn btn-large'
+    = link_to "Reservation", {type: "reservation"}, :class => 'btn btn-large'
 = render 'form'
 .well
   = render 'things/selector/form'
