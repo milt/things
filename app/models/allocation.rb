@@ -6,6 +6,7 @@ class Allocation < ActiveRecord::Base
   validates :thing, :checkout, presence: true
   delegate :pickup_at, :return_at, to: :checkout
   validate :cannot_reserve_if_conflict, unless: Proc.new {|a| a.thing.blank? || a.checkout.blank? }
+  validate :cannot_pickup_if_outside_checkout_time, on: :update
   # validate :cannot_pickup_if_out
 
   def cannot_reserve_if_conflict
@@ -16,6 +17,12 @@ class Allocation < ActiveRecord::Base
           errors.add(:base, "Conflicts with #{status.to_s} allocation #{allocation.id.to_s} from checkout #{allocation.checkout_id.to_s}")
         end
       end
+    end
+  end
+
+  def cannot_pickup_if_outside_checkout_time
+    unless (picked_up >= pickup_at) && (picked_up <= return_at)
+      errors.add(:base, "Allocation cannot be picked up before or after checkout time.")
     end
   end
 

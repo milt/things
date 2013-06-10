@@ -28,6 +28,10 @@ describe ThingsController do
     FactoryGirl.attributes_for(:thing)
   end
 
+  def invalid_attributes
+    FactoryGirl.attributes_for(:thing, name: nil)
+  end
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ThingsController. Be sure to keep this updated too.
@@ -90,14 +94,14 @@ describe ThingsController do
       it "assigns a newly created but unsaved thing as @thing" do
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        post :create, {:thing => {  }}
+        post :create, {thing: invalid_attributes }
         assigns(:thing).should be_a_new(Thing)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        post :create, {:thing => {  }}
+        post :create, {:thing => invalid_attributes }
         response.should render_template("new")
       end
     end
@@ -111,8 +115,8 @@ describe ThingsController do
         # specifies that the Thing created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Thing.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => thing.to_param, :thing => { "these" => "params" }}
+        Thing.any_instance.should_receive(:update_attributes).with({ "name" => "foo" })
+        put :update, {:id => thing.to_param, :thing => { "name" => "foo" }}
       end
 
       it "assigns the requested thing as @thing" do
@@ -133,7 +137,7 @@ describe ThingsController do
         thing = Thing.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        put :update, {:id => thing.to_param, :thing => {  }}
+        put :update, {:id => thing.to_param, :thing => invalid_attributes }
         assigns(:thing).should eq(thing)
       end
 
@@ -141,7 +145,7 @@ describe ThingsController do
         thing = Thing.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Thing.any_instance.stub(:save).and_return(false)
-        put :update, {:id => thing.to_param, :thing => {  }}
+        put :update, {:id => thing.to_param, :thing => invalid_attributes}
         response.should render_template("edit")
       end
     end

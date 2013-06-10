@@ -25,12 +25,20 @@ describe CheckoutsController do
   # Checkout. As you add validations to Checkout, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    user = FactoryGirl.create(:patron)
-    attrs = FactoryGirl.attributes_for(:reservation_checkout)
-    attrs[:user_id] = user.id #temp, modify controller to really handle user
+    #user = FactoryGirl.create(:patron)
+    patron = User.first
+    things = 10.times.map {FactoryGirl.create(:thing)}
+
+    attrs = {checkout: {return_at: DateTime.now + 3.day}, thing_ids: things.map(&:id)}
+    #attrs[:user_id] = user.id #temp, modify controller to really handle user
     return attrs
   end
 
+  def invalid_attributes
+    attrs = valid_attributes
+    attrs[:checkout][:return_at] = ""
+    return attrs
+  end
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # CheckoutsController. Be sure to keep this updated too.
@@ -73,18 +81,18 @@ describe CheckoutsController do
     describe "with valid params" do
       it "creates a new Checkout" do
         expect {
-          post :create, {:checkout => valid_attributes}
+          post :create, valid_attributes
         }.to change(Checkout, :count).by(1)
       end
 
       it "assigns a newly created checkout as @checkout" do
-        post :create, {:checkout => valid_attributes}
+        post :create, valid_attributes
         assigns(:checkout).should be_a(Checkout)
         assigns(:checkout).should be_persisted
       end
 
       it "redirects to the created checkout" do
-        post :create, {:checkout => valid_attributes}
+        post :create, valid_attributes
         response.should redirect_to(Checkout.last)
       end
     end
@@ -93,15 +101,15 @@ describe CheckoutsController do
       it "assigns a newly created but unsaved checkout as @checkout" do
         # Trigger the behavior that occurs when invalid params are submitted
         Checkout.any_instance.stub(:save).and_return(false)
-        post :create, {:checkout => {  }}
+        post :create, invalid_attributes
         assigns(:checkout).should be_a_new(Checkout)
       end
 
-      it "re-renders the 'new' template" do
+      it "redirects to new" do
         # Trigger the behavior that occurs when invalid params are submitted
         Checkout.any_instance.stub(:save).and_return(false)
-        post :create, {:checkout => {  }}
-        response.should render_template("new")
+        post :create, invalid_attributes
+        response.should be_redirect
       end
     end
   end
@@ -109,24 +117,25 @@ describe CheckoutsController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested checkout" do
-        checkout = FactoryGirl.create(:checkout)
+        checkout = FactoryGirl.create(:reservation_checkout)
         # Assuming there are no other checkouts in the database, this
         # specifies that the Checkout created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Checkout.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => checkout.to_param, :checkout => { "these" => "params" }}
+        test_params = { "return_at" => (DateTime.now + 3.days).to_s }
+        Checkout.any_instance.should_receive(:update_attributes).with(test_params)
+        put :update, {:id => checkout.to_param, :checkout => test_params}
       end
 
       it "assigns the requested checkout as @checkout" do
         checkout = FactoryGirl.create(:checkout)
-        put :update, {:id => checkout.to_param, :checkout => valid_attributes}
+        put :update, {:id => checkout.to_param, :checkout => valid_attributes[:checkout]}
         assigns(:checkout).should eq(checkout)
       end
 
       it "redirects to the checkout" do
         checkout = FactoryGirl.create(:checkout)
-        put :update, {:id => checkout.to_param, :checkout => valid_attributes}
+        put :update, {:id => checkout.to_param, :checkout => valid_attributes[:checkout]}
         response.should redirect_to(checkout)
       end
     end
@@ -136,7 +145,7 @@ describe CheckoutsController do
         checkout = FactoryGirl.create(:checkout)
         # Trigger the behavior that occurs when invalid params are submitted
         Checkout.any_instance.stub(:save).and_return(false)
-        put :update, {:id => checkout.to_param, :checkout => {  }}
+        put :update, {:id => checkout.to_param, :checkout => invalid_attributes[:checkout]}
         assigns(:checkout).should eq(checkout)
       end
 
@@ -144,7 +153,7 @@ describe CheckoutsController do
         checkout = FactoryGirl.create(:checkout)
         # Trigger the behavior that occurs when invalid params are submitted
         Checkout.any_instance.stub(:save).and_return(false)
-        put :update, {:id => checkout.to_param, :checkout => {  }}
+        put :update, {:id => checkout.to_param, :checkout => invalid_attributes[:checkout]}
         response.should render_template("edit")
       end
     end
