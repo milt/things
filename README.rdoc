@@ -1,3 +1,5 @@
 == Things
 
 Playing with some new stuff for equiment tracking at the DMC
+
+[![Build Status](https://travis-ci.org/milt/things.png?branch=master)](https://travis-ci.org/milt/things)
