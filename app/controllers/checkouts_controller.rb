@@ -72,9 +72,7 @@ class CheckoutsController < ApplicationController
         @things_to_allocate = Thing.find((params[:thing_ids] & Thing.all.map(&:id)))
       end
       @checkout.add_things(@things_to_allocate)
-      if @type == "checkout"
-        @checkout.allocations.each {|a| a.picked_up = @checkout.pickup_at}
-      end
+      @checkout.pickup_all if @type == "checkout"
     end
 
     respond_to do |format|

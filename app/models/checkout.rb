@@ -26,6 +26,10 @@ class Checkout < ActiveRecord::Base
     end
   end
 
+  def pickup_all
+    allocations.each {|a| a.pickup}
+  end
+
   def status
     checkout_attrs = self.attributes
     allocations_statuses = (allocations.map {|a| a.status(checkout_attrs)}).uniq

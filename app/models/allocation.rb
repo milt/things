@@ -99,4 +99,8 @@ class Allocation < ActiveRecord::Base
       return status(checkout_attrs)
     end
   end
+
+  def pickup
+    self.picked_up = DateTime.now
+  end
 end

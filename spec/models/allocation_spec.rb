@@ -21,6 +21,10 @@ describe Allocation do
     end
   end
   context "when it is picked up" do
+    it "is invalid if the pickup time is not within the pickup and return times of the checkout."
+      pending
+    end
+
     it "is invalid if thing is overdue and has not been returned" do
       prior_checkout = FactoryGirl.create(:overdue_checkout)
 
