@@ -31,6 +31,7 @@ gem 'pickle'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
 #gem 'client_side_validations'
 #gem 'client_side_validations-simple_form', :git => 'git://github.com/dockyard/client_side_validations-simple_form'
+gem 'safe_yaml', github: 'dtao/safe_yaml'
 
 gem "bootstrap-datetimepicker-rails"
 gem "bullet", :group => "development"
