@@ -60,7 +60,7 @@ FactoryGirl.define do
     end
 
     after(:build) do |checkout|
-      if checkout.allocations.empty? && is_empty == false
+      if checkout.allocations.empty?
         things = Array(1..10).sample.times.map {FactoryGirl.create(:thing)}
         checkout.add_things(things)
         checkout.allocations.each {|a| a.pickup }
