@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Allocation do
   it "is invalid without a checkout" do
-    FactoryGirl.build(:allocation, checkout: nil).should_not be_valid
+    allocation = FactoryGirl.build(:allocation, checkout: nil)
+    allocation.checkout = nil
+    allocation.should_not be_valid
   end
 
   it "is invalid without a thing" do
