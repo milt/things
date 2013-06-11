@@ -38,7 +38,7 @@ gem "bullet", :group => "development"
 
 group :test do
   gem 'cucumber-rails', :require => false
-  gem 'database_cleaner', github: 'bmabey/database_cleaner'
+  gem "database_cleaner", '1.0.1'
   gem 'capybara', github: 'jnicklas/capybara'
 end
 
