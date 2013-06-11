@@ -34,7 +34,7 @@ Given /^I am logged in as patron$/ do
 end
 
 When /^I visit the users index$/ do
-  create_user
+  #create_user
   visit '/users'
 end
 

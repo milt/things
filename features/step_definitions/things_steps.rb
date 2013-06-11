@@ -24,17 +24,17 @@ end
 
 
 def add_new
-  click_link 'New Thing'
+  click_link 'New'
   fill_in 'Name', :with => @thing[:name]
   fill_in 'Description', :with => @thing[:description]
-  click_button "Save"
+  click_button "Create Thing"
 end
 
 def edit
   visit edit_thing_path(@thing)
   fill_in 'Name', :with => @thing[:name]
   fill_in 'Description', :with => @thing[:description]
-  click_button "Save"
+  click_button "Update Thing"
 end
 
 def add_some_things
@@ -63,7 +63,7 @@ When /^I add a new thing with invalid parameters$/ do
 end
 
 Then /^I should be redirected to the thing$/ do
-  page.should have_content "Thing #" # need to get the code to find the action/path
+  page.should have_content "1 " + @anything[:name] # need to get the code to find the action/path
 end
 
 Then /^I should see a confirmation message that it was created$/ do
@@ -134,9 +134,9 @@ Then /^I should be redirected to the index$/ do
 end
 
 When /^I type in the search box$/ do
-  fill_in "search", :with => Thing.first.name
+  fill_in "q_name_cont", :with => Thing.first.name
 end
 
 Then /^I should see results below$/ do
-  page.should have_content Thing.first.name # replace for ajax stuff
+  pending # waspage.should have_content Thing.first.name # replace for ajax stuff
 end
